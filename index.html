@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="MagPro">
+    <title>MagPro</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        html[dir="ltr"] body { font-family: 'Poppins', sans-serif; }
+        html[dir="rtl"] body { font-family: 'Cairo', sans-serif; }
+        
+        html[dir="rtl"] .hero-title-spacing { line-height: 1.4 !important; }
+        
+        .gradient-text { 
+            background: linear-gradient(90deg, #3498db, #2ecc71); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
+        
+        .hero-section { 
+            padding-top: 140px !important; 
+            padding-bottom: 80px !important;
+            overflow: hidden;
+        }
+        @media (min-width: 768px) {
+            .hero-section { 
+                padding-top: 180px !important; 
+                padding-bottom: 120px !important;
+            }
+        }
+
+        .scroll-smooth { scroll-behavior: smooth; }
+        
+        #featureModal { transition: opacity 0.3s ease, visibility 0.3s ease; }
+        #featureModal.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        #featureModal:not(.hidden) { opacity: 1; visibility: visible; pointer-events: auto; }
+        
+        .modal-content { transform: scale(0.95); transition: transform 0.3s ease; }
+        #featureModal:not(.hidden) .modal-content { transform: scale(1); }
+
+        #backToTop {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+        }
+        #backToTop.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up { animation: fadeInUp 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
+        
+        .hover-lift { transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        
+        .pulse-btn { animation: pulse-glow 2s infinite; }
+
+        #mobileMenu { transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; max-height: 0; opacity: 0; overflow: hidden; }
+        #mobileMenu.open { max-height: 400px; opacity: 1; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 scroll-smooth">
+
+    <script>
+        const APP_CONFIG = {
+            CONTACT: {
+                PHONE: "0770 72 71 67",
+                EMAIL: "rh.seifeddine@gmail.com",
+                FACEBOOK: "https://web.facebook.com/magpro.officiel"
+            },
+            WINDOWS: {
+                VERSION: "7.1.0.0",
+                DATE: "10 Mars 2026",
+                DATE_AR: "10 مارس 2026",
+                LINK: "#"
+            },
+            ANDROID: {
+                FLOTTE: {
+                    VERSION: "7.1.0",
+                    DATE: "10 Mars 2026",
+                    DATE_AR: "10 مارس 2026",
+                    LINK: "#"
+                },
+                SCALE: {
+                    VERSION: "7.1.0",
+                    DATE: "10 Mars 2026",
+                    DATE_AR: "10 مارس 2026",
+                    LINK: "#"
+                },
+                RESTO: {
+                    VERSION: "7.1.0",
+                    DATE: "10 Mars 2026",
+                    DATE_AR: "10 مارس 2026",
+                    LINK: "#"
+                },
+                STANDALONE: {
+                    VERSION: "7.1.0",
+                    DATE: "10 Mars 2026",
+                    DATE_AR: "10 مارس 2026",
+                    LINK: "#"
+                }
+            }
+        };
+
+        const translations = {
+            ar: {
+                nav_features: "المميزات",
+                nav_pc: "Windows PC",
+                nav_apps: "تطبيقات Android",
+                nav_install: "دليل التثبيت",
+                nav_contact: "اتصل بنا",
+                hero_title1: "الحل النهائي لإدارة <br>",
+                hero_title2: "تجارتك",
+                hero_desc: "المحلات التجارية، المطاعم، أو التوزيع. MagPro هو برنامج الفوترة وتسيير المخزون الأقوى، الأسرع والأكثر أماناً.",
+                feat_title: "اكتشف قوة MagPro",
+                feat_desc: "اضغط على أي قسم لاكتشاف خصائصه المستخرجة من تقنياتنا.",
+                feat_card1_title: "المحلات التجارية والجملة",
+                feat_card1_desc: "تسيير أسعار متعددة (تجزئة، نصف جملة، جملة). دعم الباركود، الميزان، وتسيير متقدم للمخزون.",
+                feat_card1_link: "لمعرفة المزيد",
+                feat_card2_title: "المطاعم والمقاهي",
+                feat_card2_desc: "مخطط طاولات تفاعلي. طباعة مباشرة في المطبخ. منيو رقمي (QR Code). تسيير الإضافات.",
+                feat_card2_link: "لمعرفة المزيد",
+                feat_card3_title: "التوزيع",
+                feat_card3_desc: "تتبع GPS في الوقت الفعلي. تطبيق يعمل بدون إنترنت للسائقين. فوترة وتسيير المخزون من الهاتف.",
+                feat_card3_link: "لمعرفة المزيد",
+                modal_close: "إغلاق",
+                inst_title: "دليل التثبيت والتحديث",
+                inst_desc: "تعرف على كيفية تثبيت وتحديث برنامج MagPro بخطوات بسيطة.",
+                inst_new_title: "تثبيت جديد",
+                inst_new_desc: "عند تثبيت البرنامج لأول مرة، يوفر لك المثبت الخيارات التالية:",
+                inst_mode_title: "1. وضع البرنامج:",
+                inst_mode_stock: "إدارة المخزون (Gestion de Stock): مخصص للمحلات ونقاط البيع.",
+                inst_mode_resto: "المطاعم (Restaurant): مخصص لإدارة المطاعم والمقاهي.",
+                inst_type_title: "2. نوع التثبيت:",
+                inst_type_server: "الخادم (Serveur): يثبت قاعدة البيانات Firebird والملفات الأساسية على الجهاز الرئيسي.",
+                inst_type_client: "العميل (Client): يربط الجهاز الفرعي بالخادم عبر إدخال عنوان IP الخاص التابع له.",
+                inst_up_title: "تحديث البرنامج",
+                inst_up_desc: "عند اختيار 'تحديث' (Mise à jour)، سيقوم المثبت بـ:",
+                inst_up_1: "الاحتفاظ بملف الإعدادات وقاعدة البيانات الخاصة بك بأمان.",
+                inst_up_2: "حذف الملفات القديمة واستبدالها بالنسخة الجديدة تلقائياً.",
+                inst_up_3: "لا يتطلب إعادة ضبط الشبكة أو إعدادات السيرفر.",
+                apps_eco: "نظام Android",
+                apps_title: "تحميل تطبيقات الهاتف (APK)",
+                apps_desc: "وسّع قوة MagPro على هواتفك الذكية.",
+                app1_title: "MagPro Vendeur",
+                app1_desc: "التطبيق المتصل بالكمبيوتر. للموزعين (Van Selling). يتضمن GPS، فوترة بدون إنترنت وطلبات المخزون.",
+                app2_title: "MagPro Scale",
+                app2_desc: "حوّل هاتفك إلى ميزان متصل بالمخزون. يحسب السعر بالغرام ويطبع ملصقات الباركود.",
+                app3_title: "MagPro Resto",
+                app3_desc: "أخذ الطلبات للندل. إرسال مباشر للمطبخ، تسيير الطاولات وتقسيم الفاتورة.",
+                app4_title: "MagPro Standalone",
+                app4_desc: "حل مستقل 100%. يسير المخزون، المشتريات والمبيعات محلياً على الهاتف.",
+                btn_download_apk: "تحميل APK",
+                up_win: "آخر إصدار Windows",
+                up_title: "تحميل MagPro (الكمبيوتر الخادم)",
+                up_setup: "نسخة MagPro Setup ",
+                up_fix1: "إصلاح الأخطاء الطفيفة.",
+                up_fix2: "تحسين السرعة.",
+                up_fix3: "مميزات جديدة.",
+                up_dl_for: "تحميل لـ",
+                up_win_ver: "Windows 10/11 (64-bit)",
+                up_secure: "ملف آمن ومفحوص خالي من الفيروسات.",
+                foot_desc: "النظام البرمجي الجزائري المصمم لتسهيل يومياتك، من الكاسة إلى هاتفك الذكي.",
+                foot_contact: "اتصل بنا",
+                foot_loc: "سكيكدة، الجزائر",
+                foot_copy1: "MagPro. تم التطوير بواسطة",
+                foot_copy2: "جميع الحقوق محفوظة."
+            },
+            fr: {
+                nav_features: "Fonctionnalités",
+                nav_pc: "Windows PC",
+                nav_apps: "Applications Android",
+                nav_install: "Guide d'installation",
+                nav_contact: "Contact",
+                hero_title1: "La Solution Ultime pour Gérer <br>",
+                hero_title2: "Votre Commerce",
+                hero_desc: "Commerces, Restaurants, ou Distribution. MagPro est le logiciel de facturation et de gestion de stock le plus complet, rapide et sécurisé.",
+                feat_title: "Découvrez la puissance de MagPro",
+                feat_desc: "Cliquez sur un module pour explorer toutes ses capacités extraites de notre technologie.",
+                feat_card1_title: "Commerces & Gros",
+                feat_card1_desc: "Gestion multi-tarifs (Détail, Demi-gros, Gros). Prise en charge des codes-barres, balances et gestion de stock avancée.",
+                feat_card1_link: "En savoir plus",
+                feat_card2_title: "Restaurants & Cafés",
+                feat_card2_desc: "Plan de tables interactif. Impression directe en cuisine. Menu digital QR Code. Gestion des suppléments.",
+                feat_card2_link: "En savoir plus",
+                feat_card3_title: "Distribution",
+                feat_card3_desc: "Suivi GPS en temps réel. Application hors-ligne pour chauffeurs. Facturation sur place et gestion du stock mobile.",
+                feat_card3_link: "En savoir plus",
+                modal_close: "Fermer",
+                inst_title: "Guide d'Installation et de Mise à Jour",
+                inst_desc: "Découvrez comment installer et mettre à jour le logiciel MagPro en toute simplicité.",
+                inst_new_title: "Nouvelle Installation",
+                inst_new_desc: "Lors de la première installation, le setup vous offre les choix suivants :",
+                inst_mode_title: "1. Mode du Programme :",
+                inst_mode_stock: "Gestion de Stock : Dédié aux commerces et points de vente.",
+                inst_mode_resto: "Restaurant : Optimisé pour la gestion des restaurants et cafés.",
+                inst_type_title: "2. Type d'installation :",
+                inst_type_server: "Serveur : Installe la base de données Firebird et les fichiers centraux sur le poste principal.",
+                inst_type_client: "Client : Connecte le poste secondaire au serveur via son adresse IP.",
+                inst_up_title: "Mise à Jour (Update)",
+                inst_up_desc: "En choisissant 'Mise à jour', le programme d'installation va :",
+                inst_up_1: "Sauvegarder en toute sécurité votre fichier de configuration et votre base de données.",
+                inst_up_2: "Nettoyer les anciens fichiers et déployer la nouvelle version automatiquement.",
+                inst_up_3: "Aucune reconfiguration réseau ou serveur n'est requise.",
+                apps_eco: "Écosystème Android",
+                apps_title: "Télécharger nos Applications Mobile (APK)",
+                apps_desc: "Étendez la puissance de MagPro sur vos Smartphones Android.",
+                app1_title: "MagPro Vendeur",
+                app1_desc: "L'application connectée au PC. Pour les vendeurs sur terrain (Van Selling). Inclut GPS, facturation hors-ligne et requêtes de stock.",
+                app2_title: "MagPro Scale",
+                app2_desc: "Transformez un Smartphone Android en balance connectée au stock. Calcule les prix au gramme et imprime des étiquettes codes-barres.",
+                app3_title: "MagPro Resto",
+                app3_desc: "Prise de commande mobile pour les serveurs. Envoie direct en cuisine, gestion des tables et division des additions.",
+                app4_title: "MagPro Standalone",
+                app4_desc: "Une solution 100% indépendante. Gère le stock, les achats et les ventes localement sur le Smartphone.",
+                btn_download_apk: "Télécharger APK",
+                up_win: "Dernière Version Windows",
+                up_title: "Télécharger MagPro (Serveur PC)",
+                up_setup: "MagPro Setup ",
+                up_fix1: "Correction des bugs mineurs.",
+                up_fix2: "Amélioration de la vitesse.",
+                up_fix3: "Nouvelle fonctionnalité.",
+                up_dl_for: "Télécharger pour",
+                up_win_ver: "Windows 10/11 (64-bit)",
+                up_secure: "Fichier sécurisé et scanné sans virus.",
+                foot_desc: "L'écosystème logiciel Algérien conçu pour simplifier votre quotidien, de la caisse jusqu'à votre Smartphone.",
+                foot_contact: "Contactez-nous",
+                foot_loc: "Skikda, Algérie",
+                foot_copy1: "MagPro. Développé par",
+                foot_copy2: "Tous droits réservés."
+            }
+        };
+
+        const featureDetails = {
+            superette: {
+                icon: "fa-cart-shopping",
+                color: "text-blue-600",
+                bg: "bg-blue-100",
+                ar: {
+                    title: "المحلات التجارية والجملة",
+                    description: "نظام متكامل لتسيير المخزون المعقد، التسعير الديناميكي والمتابعة المالية المفصلة.",
+                    points: [
+                        "تسيير أسعار متعددة (تجزئة، نصف جملة، جملة) مع تعيين تلقائي للزبون.",
+                        "تسيير مستودعات متعددة: انقل سلعك بين المتجر الرئيسي والمستودع.",
+                        "دعم كامل للباركود والموازين الإلكترونية وطباعة ملصقات مخصصة (40x20، 45x35، 60x40).",
+                        "متابعة دقيقة لتواريخ الصلاحية مع تنبيهات قابلة للضبط.",
+                        "نظام ولاء ذكي (نقاط قابلة للتحويل إلى خصومات).",
+                        "تسيير الأرقام التسلسلية للأجهزة الكهرومنزلية مع متابعة الضمان.",
+                        "نظام عروض ترويجية قابل للبرمجة (سعر ثابت أو نسبة، حد للكمية).",
+                        "تقارير مالية مفصلة (الأرباح، قيمة المخزون، المصاريف، رقم الأعمال)."
+                    ]
+                },
+                fr: {
+                    title: "Commerces & Gros",
+                    description: "Un système complet pour la gestion des stocks complexes, la tarification dynamique et le suivi financier détaillé.",
+                    points: [
+                        "Gestion multi-tarifs (Détail, Demi-gros, Gros) avec assignation automatique par client.",
+                        "Gestion multi-dépôts : Transférez vos marchandises entre le Magasin Principal et le Dépôt.",
+                        "Prise en charge intégrale des codes-barres, balances électroniques et impression d'étiquettes personnalisables (40x20, 45x35, 60x40).",
+                        "Suivi rigoureux des dates d'expiration avec alertes paramétrables.",
+                        "Système de fidélité intelligent (Points convertibles en remises).",
+                        "Gestion des numéros de série (Serial Numbers) pour l'électroménager avec suivi des garanties.",
+                        "Système de promotions programmables (Prix fixe ou Pourcentage, Limite de quantité).",
+                        "Rapports financiers détaillés (Bénéfices, Valeur du stock, Dépenses, Chiffre d'affaires)."
+                    ]
+                }
+            },
+            resto: {
+                icon: "fa-utensils",
+                color: "text-orange-600",
+                bg: "bg-orange-100",
+                ar: {
+                    title: "المطاعم والمقاهي",
+                    description: "مصمم خصيصاً لتسريع الخدمة، مزامنة الصالة والمطبخ، وتقديم تجربة عصرية.",
+                    points: [
+                        "مخطط طاولات تفاعلي (متاحة، مشغولة، محجوزة) مع تسيير الكراسي.",
+                        "توجيه ذكي في المطبخ: طباعة تلقائية حسب الفئة (مثال: المشروبات في البار، الأطباق في المطبخ).",
+                        "نظام تذكير لإعلام المطبخ بأن طاولة تنتظر منذ فترة طويلة.",
+                        "منيو رقمي عبر QR Code ديناميكي يولد تلقائياً لزبائنك.",
+                        "تسيير متقدم للإضافات (مثال: +جبن، بدون بصل) مع تعديل تلقائي للأسعار.",
+                        "وضع البيع السريع (Quick Sale) للطلبات الخارجية.",
+                        "نقل سهل للطلبات من طاولة إلى أخرى أو من كرسي إلى آخر.",
+                        "نداء للنادل مباشرة من المنيو الرقمي الخاص بالزبون."
+                    ]
+                },
+                fr: {
+                    title: "Restaurants & Cafés",
+                    description: "Spécialement conçu pour accélérer le service, synchroniser la salle et la cuisine, et offrir une expérience moderne.",
+                    points: [
+                        "Plan de tables interactif (Disponible, Occupée, Réservée) avec gestion des chaises/couverts.",
+                        "Routage intelligent en cuisine : Impression automatique selon la catégorie (ex: Boissons au bar, Plats en cuisine).",
+                        "Système de relance (Rappel) pour signaler à la cuisine qu'une table wait depuis trop longtemps.",
+                        "Menu Digital via QR Code dynamique généré automatiquement pour vos clients.",
+                        "Gestion avancée des suppléments/options (Ex: +Fromage, Sans Oignon) avec ajustement automatique des prix.",
+                        "Mode Vente Rapide (Quick Sale) pour les commandes à emporter.",
+                        "Transfert facile des commandes d'une table à une autre ou d'une chaise à une autre.",
+                        "Appel serveur directement depuis le menu digital du client."
+                    ]
+                }
+            },
+            van: {
+                icon: "fa-truck-fast",
+                color: "text-purple-600",
+                bg: "bg-purple-100",
+                ar: {
+                    title: "التوزيع",
+                    description: "التحكم الكامل في أسطول التوزيع الخاص بك. تتبع سائقيك وسير المخزون المتنقل في الوقت الفعلي.",
+                    points: [
+                        "تطبيق Android مخصص يعمل بدون إنترنت (Offline) مع مزامنة تلقائية.",
+                        "لوحة تحكم لتتبع GPS في الوقت الفعلي: السرعة، المسارات، والحالة.",
+                        "تسيير مخزون الشاحنة: تحميل وإرجاع السلع من التطبيق المركزي.",
+                        "إمكانية إرسال 'طلبات مخزون' من السائق مباشرة إلى المتجر.",
+                        "تسجيل دفعات الزبائن والمصاريف للسائق على الطريق.",
+                        "طباعة فورية عبر البلوتوث (Bluetooth) لوصل التسليم والفواتير من هاتف السائق.",
+                        "تحديد الموقع الجغرافي التلقائي لنقاط بيع الزبائن."
+                    ]
+                },
+                fr: {
+                    title: "Distribution",
+                    description: "Le contrôle total de votre flotte de distribution. Suivez vos chauffeurs et gérez le stock roulant en temps réel.",
+                    points: [
+                        "Application Mobile Android dédiée fonctionnant en mode Hors-Ligne (Offline) avec synchronisation auto.",
+                        "Tableau de bord de suivi GPS en direct (Fleet Command) : vitesse, trajets, et statut en ligne.",
+                        "Gestion du stock camion : Chargement et Retour de la marchandise depuis l'application centrale.",
+                        "Possibilité pour le chauffeur d'envoyer des 'Demandes de Stock' directement vers le magasin.",
+                        "Enregistrement des versements, paiements et dépenses du chauffeur sur la route.",
+                        "Impression Bluetooth instantanée des bons de livraison et factures depuis le Smartphone du chauffeur.",
+                        "Géolocalisation automatique des points de vente clients."
+                    ]
+                }
+            }
+        };
+
+        let currentLang = 'fr';
+        let currentModalKey = '';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'fr' ? 'ar' : 'fr';
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key];
+                }
+            });
+
+            document.getElementById('langToggleBtn').innerText = currentLang === 'ar' ? 'Français' : 'العربية';
+            
+            if(document.getElementById('mobileMenu').classList.contains('open')) {
+                toggleMobileMenu();
+            }
+
+            const winDateEl = document.getElementById('win-date');
+            if(winDateEl) {
+                const dateStr = currentLang === 'ar' ? APP_CONFIG.WINDOWS.DATE_AR : APP_CONFIG.WINDOWS.DATE;
+                winDateEl.innerHTML = (currentLang === 'ar' ? 'تم التحديث في: ' : 'Mise à jour le : ') + dateStr + window.winFireHtml;
+            }
+
+            document.getElementById('date_flotte').innerHTML = (currentLang === 'ar' ? APP_CONFIG.ANDROID.FLOTTE.DATE_AR : APP_CONFIG.ANDROID.FLOTTE.DATE) + getFireIconHTML(APP_CONFIG.ANDROID.FLOTTE.DATE);
+            document.getElementById('date_scale').innerHTML = (currentLang === 'ar' ? APP_CONFIG.ANDROID.SCALE.DATE_AR : APP_CONFIG.ANDROID.SCALE.DATE) + getFireIconHTML(APP_CONFIG.ANDROID.SCALE.DATE);
+            document.getElementById('date_resto').innerHTML = (currentLang === 'ar' ? APP_CONFIG.ANDROID.RESTO.DATE_AR : APP_CONFIG.ANDROID.RESTO.DATE) + getFireIconHTML(APP_CONFIG.ANDROID.RESTO.DATE);
+            document.getElementById('date_standalone').innerHTML = (currentLang === 'ar' ? APP_CONFIG.ANDROID.STANDALONE.DATE_AR : APP_CONFIG.ANDROID.STANDALONE.DATE) + getFireIconHTML(APP_CONFIG.ANDROID.STANDALONE.DATE);
+
+            if(currentModalKey && !document.getElementById('featureModal').classList.contains('hidden')) {
+                openFeatureModal(currentModalKey);
+            }
+        }
+
+        function openFeatureModal(key) {
+            currentModalKey = key;
+            const data = featureDetails[key];
+            const langData = data[currentLang];
+            
+            document.getElementById('modalIcon').className = `fa-solid ${data.icon} ${data.color} text-4xl`;
+            document.getElementById('modalIconBg').className = `w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${data.bg}`;
+            document.getElementById('modalTitle').innerText = langData.title;
+            document.getElementById('modalDesc').innerText = langData.description;
+            
+            const ul = document.getElementById('modalPoints');
+            ul.innerHTML = '';
+            langData.points.forEach(point => {
+                const li = document.createElement('li');
+                li.className = "flex items-start gap-3 text-gray-600 text-sm md:text-base";
+                li.innerHTML = `<i class="fa-solid fa-check text-green-500 mt-1 flex-shrink-0"></i> <span>${point}</span>`;
+                ul.appendChild(li);
+            });
+
+            document.getElementById('featureModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeFeatureModal() {
+            document.getElementById('featureModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('open');
+        }
+
+        window.onscroll = function() {
+            const topBtn = document.getElementById("backToTop");
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                topBtn.classList.add("show");
+            } else {
+                topBtn.classList.remove("show");
+            }
+        };
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function getFireIconHTML(dateStr) {
+            const months = { 'janvier': 0, 'février': 1, 'mars': 2, 'avril': 3, 'mai': 4, 'juin': 5, 'juillet': 6, 'août': 7, 'septembre': 8, 'octobre': 9, 'novembre': 10, 'décembre': 11 };
+            try {
+                const parts = dateStr.toLowerCase().split(' ');
+                if (parts.length >= 3) {
+                    const day = parseInt(parts[0], 10);
+                    const month = months[parts[1]];
+                    const year = parseInt(parts[2], 10);
+                    if (!isNaN(day) && month !== undefined && !isNaN(year)) {
+                        const updateDate = new Date(year, month, day);
+                        const today = new Date();
+                        const diffDays = (today - updateDate) / (1000 * 60 * 60 * 24);
+                        if (diffDays <= 30) {
+                            return ' <span class="text-orange-500 animate-pulse text-lg" title="Mise à jour récente">🔥</span>';
+                        }
+                    }
+                }
+            } catch(e) {}
+            return '';
+        }
+    </script>
+
+    <nav class="bg-white shadow-md fixed w-full z-50 top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-blue-600 text-3xl"></i>
+                    <span class="text-2xl font-bold text-gray-800 tracking-tight">Mag<span class="text-blue-600">Pro</span></span>
+                </div>
+                
+                <div class="hidden lg:flex items-center gap-6 xl:gap-8">
+                    <a href="#features" data-i18n="nav_features" class="text-gray-700 hover:text-blue-600 font-bold transition text-sm xl:text-base">Fonctionnalités</a>
+                    <a href="#update" class="text-gray-700 hover:text-blue-600 font-bold transition flex items-center gap-2 text-sm xl:text-base">
+                        <i class="fa-solid fa-download text-blue-500"></i> <span data-i18n="nav_pc">Windows PC</span>
+                    </a>
+                    <a href="#mobile-apps" class="text-gray-700 hover:text-blue-600 font-bold transition flex items-center gap-2 text-sm xl:text-base">
+                        <i class="fa-brands fa-android text-green-500"></i> <span data-i18n="nav_apps">Applications Android</span>
+                    </a>
+                    <a href="#install-guide" data-i18n="nav_install" class="text-gray-700 hover:text-blue-600 font-bold transition text-sm xl:text-base">Guide d'installation</a>
+                    <a href="#contact" data-i18n="nav_contact" class="text-gray-700 hover:text-blue-600 font-bold transition text-sm xl:text-base">Contact</a>
+                    
+                    <button onclick="toggleLanguage()" id="langToggleBtn" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-5 py-2.5 rounded-xl font-bold transition ms-2 text-sm border border-gray-200 shadow-sm">
+                        العربية
+                    </button>
+                </div>
+                
+                <div class="lg:hidden flex items-center gap-4">
+                    <button onclick="toggleLanguage()" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-2 rounded-lg font-bold transition text-xs border border-gray-200 shadow-sm">
+                        <i class="fa-solid fa-globe text-lg"></i>
+                    </button>
+                    <button onclick="toggleMobileMenu()" class="text-gray-700 hover:text-blue-600 focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobileMenu" class="bg-white border-t border-gray-100 lg:hidden shadow-lg">
+            <div class="px-4 py-4 space-y-3 flex flex-col">
+                <a href="#features" onclick="toggleMobileMenu()" data-i18n="nav_features" class="block text-gray-700 hover:bg-gray-50 px-3 py-2 rounded-md font-bold text-base">Fonctionnalités</a>
+                <a href="#update" onclick="toggleMobileMenu()" class="block text-gray-700 hover:bg-gray-50 px-3 py-2 rounded-md font-bold text-base flex items-center gap-2">
+                    <i class="fa-solid fa-download text-blue-500"></i> <span data-i18n="nav_pc">Windows PC</span>
+                </a>
+                <a href="#mobile-apps" onclick="toggleMobileMenu()" class="block text-gray-700 hover:bg-gray-50 px-3 py-2 rounded-md font-bold text-base flex items-center gap-2">
+                    <i class="fa-brands fa-android text-green-500"></i> <span data-i18n="nav_apps">Applications Android</span>
+                </a>
+                <a href="#install-guide" onclick="toggleMobileMenu()" data-i18n="nav_install" class="block text-gray-700 hover:bg-gray-50 px-3 py-2 rounded-md font-bold text-base">Guide d'installation</a>
+                <a href="#contact" onclick="toggleMobileMenu()" data-i18n="nav_contact" class="block text-gray-700 hover:bg-gray-50 px-3 py-2 rounded-md font-bold text-base">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900 text-white text-center">
+        <div class="max-w-4xl mx-auto px-4">
+            <h1 class="hero-title-spacing text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 sm:mb-8 leading-tight animate-fade-in-up">
+                <span data-i18n="hero_title1">La Solution Ultime pour Gérer <br></span> <span class="gradient-text" data-i18n="hero_title2">Votre Commerce</span>
+            </h1>
+            <p data-i18n="hero_desc" class="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 text-gray-300 max-w-3xl mx-auto px-2 animate-fade-in-up leading-relaxed" style="animation-delay: 0.2s;">
+                Commerces, Restaurants, ou Distribution. MagPro est le logiciel de facturation et de gestion de stock le plus complet, rapide et sécurisé.
+            </p>
+        </div>
+    </section>
+
+    <section id="features" class="py-16 sm:py-24 bg-white border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12 sm:mb-20 animate-fade-in-up">
+                <h2 data-i18n="feat_title" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">Découvrez la puissance de MagPro</h2>
+                <p data-i18n="feat_desc" class="text-gray-500 text-sm sm:text-lg lg:text-xl max-w-2xl mx-auto">Cliquez sur un module pour explorer toutes ses capacités extraites de notre technologie.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-10">
+                <div onclick="openFeatureModal('superette')" class="p-6 sm:p-10 bg-white rounded-3xl shadow-xl transition-all duration-300 border border-gray-100 group cursor-pointer hover-lift flex flex-col items-center text-center">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 text-3xl sm:text-4xl mb-4 sm:mb-6 group-hover:bg-blue-600 group-hover:text-white transition shadow-sm">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </div>
+                    <h3 data-i18n="feat_card1_title" class="text-lg sm:text-2xl font-bold mb-3 sm:mb-4 text-gray-900">Commerces & Gros</h3>
+                    <p data-i18n="feat_card1_desc" class="text-gray-600 text-sm sm:text-base leading-relaxed mb-4 sm:mb-6 flex-grow">Gestion multi-tarifs (Détail, Demi-gros, Gros). Prise en charge des codes-barres, balances et gestion de stock avancée.</p>
+                    <span class="text-blue-600 font-bold text-sm sm:text-base bg-blue-50 px-4 py-2 sm:px-6 sm:py-2 rounded-full group-hover:bg-blue-100 transition"><span data-i18n="feat_card1_link">En savoir plus</span> <i class="fa-solid fa-arrow-right ms-2 rtl:rotate-180"></i></span>
+                </div>
+
+                <div onclick="openFeatureModal('resto')" class="p-6 sm:p-10 bg-white rounded-3xl shadow-xl transition-all duration-300 border border-gray-100 group cursor-pointer hover-lift flex flex-col items-center text-center">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-orange-50 rounded-2xl flex items-center justify-center text-orange-600 text-3xl sm:text-4xl mb-4 sm:mb-6 group-hover:bg-orange-600 group-hover:text-white transition shadow-sm">
+                        <i class="fa-solid fa-utensils"></i>
+                    </div>
+                    <h3 data-i18n="feat_card2_title" class="text-lg sm:text-2xl font-bold mb-3 sm:mb-4 text-gray-900">Restaurants & Cafés</h3>
+                    <p data-i18n="feat_card2_desc" class="text-gray-600 text-sm sm:text-base leading-relaxed mb-4 sm:mb-6 flex-grow">Plan de tables interactif. Impression directe en cuisine. Menu digital QR Code. Gestion des suppléments.</p>
+                    <span class="text-orange-600 font-bold text-sm sm:text-base bg-orange-50 px-4 py-2 sm:px-6 sm:py-2 rounded-full group-hover:bg-orange-100 transition"><span data-i18n="feat_card2_link">En savoir plus</span> <i class="fa-solid fa-arrow-right ms-2 rtl:rotate-180"></i></span>
+                </div>
+
+                <div onclick="openFeatureModal('van')" class="p-6 sm:p-10 bg-white rounded-3xl shadow-xl transition-all duration-300 border border-gray-100 group cursor-pointer hover-lift flex flex-col items-center text-center">
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-600 text-3xl sm:text-4xl mb-4 sm:mb-6 group-hover:bg-purple-600 group-hover:text-white transition shadow-sm">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+                    <h3 data-i18n="feat_card3_title" class="text-lg sm:text-2xl font-bold mb-3 sm:mb-4 text-gray-900">Distribution</h3>
+                    <p data-i18n="feat_card3_desc" class="text-gray-600 text-sm sm:text-base leading-relaxed mb-4 sm:mb-6 flex-grow">Suivi GPS en temps réel. Application hors-ligne pour chauffeurs. Facturation sur place et gestion du stock mobile.</p>
+                    <span class="text-purple-600 font-bold text-sm sm:text-base bg-purple-50 px-4 py-2 sm:px-6 sm:py-2 rounded-full group-hover:bg-purple-100 transition"><span data-i18n="feat_card3_link">En savoir plus</span> <i class="fa-solid fa-arrow-right ms-2 rtl:rotate-180"></i></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="update" class="py-16 sm:py-24 bg-gray-900 text-white border-b border-gray-800">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <span data-i18n="up_win" class="text-blue-400 font-bold tracking-widest uppercase mb-4 block text-xs sm:text-base animate-fade-in-up">Dernière Version Windows</span>
+            <h2 data-i18n="up_title" class="text-2xl sm:text-4xl lg:text-5xl font-extrabold mb-8 sm:mb-12 animate-fade-in-up" style="animation-delay: 0.1s;">Télécharger MagPro (Serveur PC)</h2>
+            
+            <div class="bg-gray-800 p-6 sm:p-12 rounded-3xl shadow-2xl border border-gray-700 relative overflow-hidden animate-fade-in-up" style="animation-delay: 0.2s;">
+                <div class="absolute -right-10 -top-10 text-gray-700 opacity-10 hidden md:block">
+                    <i class="fa-brands fa-windows text-[250px]"></i>
+                </div>
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-10 relative z-10">
+                    <div class="text-start w-full md:w-auto">
+                        <h3 class="text-2xl sm:text-4xl font-extrabold text-white mb-2 sm:mb-3" dir="ltr"><span data-i18n="up_setup">MagPro Setup </span><span dir="ltr" class="text-blue-400">v<span class="win-version"></span></span></h3>
+                        <p class="text-gray-400 text-xs sm:text-base font-medium mb-4 sm:mb-6" id="win-date"></p>
+                        <ul class="text-gray-300 space-y-2 sm:space-y-3 text-sm sm:text-lg">
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-green-400"></i> <span data-i18n="up_fix1">Correction des bugs mineurs.</span></li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-green-400"></i> <span data-i18n="up_fix2">Amélioration de la vitesse.</span></li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-green-400"></i> <span data-i18n="up_fix3">Nouvelle fonctionnalité.</span></li>
+                        </ul>
+                    </div>
+                    
+                    <a id="mainDownloadBtn" href="#" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-4 sm:px-10 sm:py-6 rounded-2xl font-bold text-base sm:text-xl shadow-[0_0_30px_rgba(37,99,235,0.4)] transition flex items-center gap-4 w-full md:w-auto justify-center pulse-btn transform hover:-translate-y-1">
+                        <i class="fa-brands fa-windows text-2xl sm:text-4xl"></i>
+                        <div class="text-start">
+                            <div data-i18n="up_dl_for" class="text-[10px] sm:text-sm font-normal opacity-90 uppercase tracking-wide">Télécharger pour</div>
+                            <div data-i18n="up_win_ver" class="leading-none mt-1 text-sm sm:text-base" dir="ltr">Windows 10/11 (64-bit)</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <p class="mt-6 sm:mt-8 text-gray-400 text-xs sm:text-base font-medium animate-fade-in-up" style="animation-delay: 0.3s;"><i class="fa-solid fa-shield-halved text-green-400 me-2 text-base sm:text-lg"></i> <span data-i18n="up_secure">Fichier sécurisé et scanné sans virus.</span></p>
+        </div>
+    </section>
+
+    <section id="mobile-apps" class="py-16 sm:py-24 bg-gray-50 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12 sm:mb-20 animate-fade-in-up">
+                <span data-i18n="apps_eco" class="text-green-600 font-bold tracking-widest uppercase mb-4 block text-xs sm:text-base">Écosystème Android</span>
+                <h2 data-i18n="apps_title" class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">Télécharger nos Applications Mobile (APK)</h2>
+                <p data-i18n="apps_desc" class="text-gray-500 text-sm sm:text-lg lg:text-xl max-w-2xl mx-auto">Étendez la puissance de MagPro sur vos Smartphones Android.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+                <div class="bg-white p-5 sm:p-8 rounded-3xl shadow-lg border-t-8 border-blue-500 transition hover-lift flex flex-col h-full relative group">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 bg-blue-50 text-blue-600 flex items-center justify-center rounded-2xl text-xl sm:text-2xl shrink-0 group-hover:bg-blue-600 group-hover:text-white transition shadow-sm">
+                            <i class="fa-solid fa-truck-fast"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <h3 data-i18n="app1_title" class="font-bold text-gray-900 leading-tight text-[13px] sm:text-sm whitespace-nowrap" dir="ltr">MagPro Vendeur</h3>
+                            <span class="inline-block mt-1 bg-blue-100 text-blue-800 text-[10px] sm:text-xs font-bold px-3 py-1 rounded-md" dir="ltr">v<span id="ver_flotte"></span></span>
+                        </div>
+                    </div>
+                    <p class="text-[10px] sm:text-xs text-gray-400 mb-4 flex items-center font-medium"><i class="fa-regular fa-calendar me-2"></i> <span id="date_flotte"></span></p>
+                    <p data-i18n="app1_desc" class="text-gray-600 text-xs sm:text-base mb-6 sm:mb-8 flex-grow leading-relaxed">L'application connectée au PC. Pour les vendeurs sur terrain (Van Selling). Inclut GPS, facturation hors-ligne et requêtes de stock.</p>
+                    <a id="apkFlotteBtn" href="#" class="w-full block text-center bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-700 font-bold py-3 sm:py-4 rounded-xl transition text-sm sm:text-base shadow-sm">
+                        <i class="fa-brands fa-android me-2 text-lg"></i> <span data-i18n="btn_download_apk">Télécharger APK</span>
+                    </a>
+                </div>
+
+                <div class="bg-white p-5 sm:p-8 rounded-3xl shadow-lg border-t-8 border-orange-500 transition hover-lift flex flex-col h-full relative group">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 bg-orange-50 text-orange-600 flex items-center justify-center rounded-2xl text-xl sm:text-2xl shrink-0 group-hover:bg-orange-600 group-hover:text-white transition shadow-sm">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <h3 data-i18n="app2_title" class="font-bold text-gray-900 leading-tight text-[13px] sm:text-sm whitespace-nowrap" dir="ltr">MagPro Scale</h3>
+                            <span class="inline-block mt-1 bg-orange-100 text-orange-800 text-[10px] sm:text-xs font-bold px-3 py-1 rounded-md" dir="ltr">v<span id="ver_scale"></span></span>
+                        </div>
+                    </div>
+                    <p class="text-[10px] sm:text-xs text-gray-400 mb-4 flex items-center font-medium"><i class="fa-regular fa-calendar me-2"></i> <span id="date_scale"></span></p>
+                    <p data-i18n="app2_desc" class="text-gray-600 text-xs sm:text-base mb-6 sm:mb-8 flex-grow leading-relaxed">Transformez un Smartphone Android en balance connectée au stock. Calcule les prix au gramme et imprime des étiquettes codes-barres.</p>
+                    <a id="apkScaleBtn" href="#" class="w-full block text-center bg-orange-50 hover:bg-orange-600 hover:text-white text-orange-700 font-bold py-3 sm:py-4 rounded-xl transition text-sm sm:text-base shadow-sm">
+                        <i class="fa-brands fa-android me-2 text-lg"></i> <span data-i18n="btn_download_apk">Télécharger APK</span>
+                    </a>
+                </div>
+
+                <div class="bg-white p-5 sm:p-8 rounded-3xl shadow-lg border-t-8 border-red-500 transition hover-lift flex flex-col h-full relative group">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 bg-red-50 text-red-600 flex items-center justify-center rounded-2xl text-xl sm:text-2xl shrink-0 group-hover:bg-red-600 group-hover:text-white transition shadow-sm">
+                            <i class="fa-solid fa-bell-concierge"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <h3 data-i18n="app3_title" class="font-bold text-gray-900 leading-tight text-[13px] sm:text-sm whitespace-nowrap" dir="ltr">MagPro Resto</h3>
+                            <span class="inline-block mt-1 bg-red-100 text-red-800 text-[10px] sm:text-xs font-bold px-3 py-1 rounded-md" dir="ltr">v<span id="ver_resto"></span></span>
+                        </div>
+                    </div>
+                    <p class="text-[10px] sm:text-xs text-gray-400 mb-4 flex items-center font-medium"><i class="fa-regular fa-calendar me-2"></i> <span id="date_resto"></span></p>
+                    <p data-i18n="app3_desc" class="text-gray-600 text-xs sm:text-base mb-6 sm:mb-8 flex-grow leading-relaxed">Prise de commande mobile pour les serveurs. Envoie direct en cuisine, gestion des tables et division des additions.</p>
+                    <a id="apkRestoBtn" href="#" class="w-full block text-center bg-red-50 hover:bg-red-600 hover:text-white text-red-700 font-bold py-3 sm:py-4 rounded-xl transition text-sm sm:text-base shadow-sm">
+                        <i class="fa-brands fa-android me-2 text-lg"></i> <span data-i18n="btn_download_apk">Télécharger APK</span>
+                    </a>
+                </div>
+
+                <div class="bg-white p-5 sm:p-8 rounded-3xl shadow-lg border-t-8 border-purple-500 transition hover-lift flex flex-col h-full relative group">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 bg-purple-50 text-purple-600 flex items-center justify-center rounded-2xl text-xl sm:text-2xl shrink-0 group-hover:bg-purple-600 group-hover:text-white transition shadow-sm">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <h3 data-i18n="app4_title" class="font-bold text-gray-900 leading-tight text-[13px] sm:text-sm whitespace-nowrap" dir="ltr">MagPro Standalone</h3>
+                            <span class="inline-block mt-1 bg-purple-100 text-purple-800 text-[10px] sm:text-xs font-bold px-3 py-1 rounded-md" dir="ltr">v<span id="ver_standalone"></span></span>
+                        </div>
+                    </div>
+                    <p class="text-[10px] sm:text-xs text-gray-400 mb-4 flex items-center font-medium"><i class="fa-regular fa-calendar me-2"></i> <span id="date_standalone"></span></p>
+                    <p data-i18n="app4_desc" class="text-gray-600 text-xs sm:text-base mb-6 sm:mb-8 flex-grow leading-relaxed">Une solution 100% indépendante. Gère le stock, les achats et les ventes localement sur le Smartphone.</p>
+                    <a id="apkStandaloneBtn" href="#" class="w-full block text-center bg-purple-50 hover:bg-purple-600 hover:text-white text-purple-700 font-bold py-3 sm:py-4 rounded-xl transition text-sm sm:text-base shadow-sm">
+                        <i class="fa-brands fa-android me-2 text-lg"></i> <span data-i18n="btn_download_apk">Télécharger APK</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="install-guide" class="py-16 sm:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12 sm:mb-20 animate-fade-in-up">
+                <h2 data-i18n="inst_title" class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">Guide d'Installation et de Mise à Jour</h2>
+                <p data-i18n="inst_desc" class="text-gray-500 text-sm sm:text-lg lg:text-xl max-w-2xl mx-auto">Découvrez comment installer et mettre à jour le logiciel MagPro en toute simplicité.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10">
+                <div class="bg-blue-50/30 p-6 sm:p-12 rounded-3xl border border-blue-100 hover-lift shadow-sm">
+                    <div class="flex items-center gap-4 sm:gap-5 mb-6 sm:mb-8">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-blue-600 text-white rounded-2xl flex items-center justify-center text-xl sm:text-2xl shadow-lg">
+                            <i class="fa-solid fa-download"></i>
+                        </div>
+                        <h3 data-i18n="inst_new_title" class="text-xl sm:text-3xl font-bold text-gray-900">Nouvelle Installation</h3>
+                    </div>
+                    <p data-i18n="inst_new_desc" class="text-gray-600 mb-6 sm:mb-8 text-sm sm:text-lg leading-relaxed">Lors de la première installation, le setup vous offre les choix suivants :</p>
+                    
+                    <div class="space-y-6 sm:space-y-8">
+                        <div>
+                            <h4 data-i18n="inst_mode_title" class="font-extrabold text-blue-700 mb-3 sm:mb-4 text-base sm:text-xl">1. Mode du Programme :</h4>
+                            <ul class="space-y-3 sm:space-y-4 text-sm sm:text-lg text-gray-700 font-medium">
+                                <li class="flex items-start gap-3"><i class="fa-solid fa-box text-blue-500 mt-1 sm:mt-1.5 text-lg sm:text-xl"></i> <span data-i18n="inst_mode_stock">Gestion de Stock : Dédié aux commerces et points de vente.</span></li>
+                                <li class="flex items-start gap-3"><i class="fa-solid fa-utensils text-blue-500 mt-1 sm:mt-1.5 text-lg sm:text-xl"></i> <span data-i18n="inst_mode_resto">Restaurant : Optimisé pour la gestion des restaurants et cafés.</span></li>
+                            </ul>
+                        </div>
+                        <div class="pt-6 border-t border-blue-100">
+                            <h4 data-i18n="inst_type_title" class="font-extrabold text-blue-700 mb-3 sm:mb-4 text-base sm:text-xl">2. Type d'installation :</h4>
+                            <ul class="space-y-3 sm:space-y-4 text-sm sm:text-lg text-gray-700 font-medium">
+                                <li class="flex items-start gap-3"><i class="fa-solid fa-server text-blue-500 mt-1 sm:mt-1.5 text-lg sm:text-xl"></i> <span data-i18n="inst_type_server">Serveur : Installe la base de données Firebird et les fichiers centraux sur le poste principal.</span></li>
+                                <li class="flex items-start gap-3"><i class="fa-solid fa-desktop text-blue-500 mt-1 sm:mt-1.5 text-lg sm:text-xl"></i> <span data-i18n="inst_type_client">Client : Connecte le poste secondaire au serveur via son adresse IP.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-green-50/30 p-6 sm:p-12 rounded-3xl border border-green-100 hover-lift shadow-sm">
+                    <div class="flex items-center gap-4 sm:gap-5 mb-6 sm:mb-8">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-green-500 text-white rounded-2xl flex items-center justify-center text-xl sm:text-2xl shadow-lg">
+                            <i class="fa-solid fa-rotate"></i>
+                        </div>
+                        <h3 data-i18n="inst_up_title" class="text-xl sm:text-3xl font-bold text-gray-900">Mise à Jour (Update)</h3>
+                    </div>
+                    <p data-i18n="inst_up_desc" class="text-gray-600 mb-6 sm:mb-8 text-sm sm:text-lg leading-relaxed">En choisissant 'Mise à jour', le programme d'installation va :</p>
+                    
+                    <ul class="space-y-4 sm:space-y-6 text-sm sm:text-lg text-gray-700 font-medium">
+                        <li class="flex items-start gap-4 p-4 bg-white rounded-2xl shadow-sm border border-green-50">
+                            <i class="fa-solid fa-shield-halved text-green-500 mt-1 text-xl sm:text-2xl"></i> 
+                            <span data-i18n="inst_up_1">Sauvegarder en toute sécurité votre fichier de configuration et votre base de données.</span>
+                        </li>
+                        <li class="flex items-start gap-4 p-4 bg-white rounded-2xl shadow-sm border border-green-50">
+                            <i class="fa-solid fa-trash-can-arrow-up text-green-500 mt-1 text-xl sm:text-2xl"></i> 
+                            <span data-i18n="inst_up_2">Nettoyer les anciens fichiers et déployer la nouvelle version automatiquement.</span>
+                        </li>
+                        <li class="flex items-start gap-4 p-4 bg-white rounded-2xl shadow-sm border border-green-50">
+                            <i class="fa-solid fa-network-wired text-green-500 mt-1 text-xl sm:text-2xl"></i> 
+                            <span data-i18n="inst_up_3">Aucune reconfiguration réseau ou serveur n'est requise.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="bg-gray-900 text-gray-300 py-16 sm:py-24 border-t-8 border-blue-600">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-16">
+            <div class="text-center md:text-start">
+                <div class="flex items-center justify-center md:justify-start gap-3 mb-6 sm:mb-8">
+                    <i class="fa-solid fa-layer-group text-blue-500 text-4xl"></i>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Mag<span class="text-blue-500">Pro</span></h2>
+                </div>
+                <p data-i18n="foot_desc" class="mb-8 opacity-90 text-sm sm:text-lg max-w-lg mx-auto md:mx-0 leading-relaxed font-medium">L'écosystème logiciel Algérien conçu pour simplifier votre quotidien, de la caisse jusqu'à votre Smartphone.</p>
+            </div>
+            <div class="text-center md:text-start bg-gray-800/50 p-6 sm:p-8 rounded-3xl border border-gray-700">
+                <h3 data-i18n="foot_contact" class="text-2xl sm:text-3xl font-extrabold text-white mb-6 sm:mb-8 border-b border-gray-700 pb-4 inline-block md:block">Contactez-nous</h3>
+                <ul class="space-y-4 sm:space-y-6 text-sm sm:text-lg font-medium">
+                    <li class="flex items-center justify-center md:justify-start gap-4 group">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center group-hover:bg-blue-600 transition">
+                            <i class="fa-solid fa-phone text-blue-400 group-hover:text-white transition text-lg sm:text-xl"></i>
+                        </div>
+                        <a id="footerPhone" href="#" class="hover:text-white transition tracking-wider" dir="ltr"></a>
+                    </li>
+                    <li class="flex items-center justify-center md:justify-start gap-4 group">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center group-hover:bg-blue-600 transition">
+                            <i class="fa-solid fa-envelope text-blue-400 group-hover:text-white transition text-lg sm:text-xl"></i>
+                        </div>
+                        <a id="footerEmail" href="#" class="hover:text-white transition" dir="ltr"></a>
+                    </li>
+                    <li class="flex items-center justify-center md:justify-start gap-4 group">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center group-hover:bg-blue-600 transition">
+                            <i class="fa-brands fa-facebook-f text-blue-400 group-hover:text-white transition text-lg sm:text-xl"></i>
+                        </div>
+                        <a id="footerFbLink" href="#" target="_blank" class="hover:text-white transition" dir="ltr">Page Facebook</a>
+                    </li>
+                    <li class="flex items-center justify-center md:justify-start gap-4 group">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-location-dot text-blue-400 text-lg sm:text-xl"></i>
+                        </div>
+                        <span data-i18n="foot_loc" class="text-gray-300">Skikda, Algérie</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center mt-12 sm:mt-20 pt-8 border-t border-gray-800 text-xs sm:text-base text-gray-500 font-medium px-4">
+            &copy; <span id="year"></span> <span data-i18n="foot_copy1">MagPro. Développé par</span> R.SEIFEDDINE. <span data-i18n="foot_copy2">Tous droits réservés.</span>
+        </div>
+    </footer>
+
+    <button onclick="scrollToTop()" id="backToTop" class="fixed bottom-6 end-6 sm:bottom-8 sm:end-8 bg-blue-600 hover:bg-blue-700 text-white w-10 h-10 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(37,99,235,0.5)] transition z-50 focus:outline-none hover:-translate-y-1">
+        <i class="fa-solid fa-arrow-up text-lg sm:text-2xl"></i>
+    </button>
+
+    <div id="featureModal" class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden modal-content border border-gray-100 max-h-[90vh] flex flex-col">
+            <div class="p-6 sm:p-10 overflow-y-auto">
+                <div class="text-center mb-6 sm:mb-8">
+                    <div id="modalIconBg">
+                        <i id="modalIcon"></i>
+                    </div>
+                    <h3 id="modalTitle" class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2 sm:mb-3"></h3>
+                    <p id="modalDesc" class="text-gray-600 text-sm sm:text-lg leading-relaxed"></p>
+                </div>
+                <div class="bg-gray-50 rounded-2xl p-4 sm:p-8 border border-gray-100 shadow-inner">
+                    <ul id="modalPoints" class="space-y-3 sm:space-y-5 font-medium">
+                    </ul>
+                </div>
+                <div class="mt-8 sm:mt-10 text-center">
+                    <button onclick="closeFeatureModal()" class="bg-gray-900 hover:bg-gray-800 text-white px-8 py-3 sm:px-10 sm:py-4 rounded-2xl font-bold transition shadow-lg w-full sm:w-auto text-base sm:text-lg hover:-translate-y-1">
+                        <span data-i18n="modal_close">Fermer</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.winFireHtml = '';
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            document.querySelectorAll('.win-version').forEach(el => el.innerText = APP_CONFIG.WINDOWS.VERSION);
+            
+            window.winFireHtml = getFireIconHTML(APP_CONFIG.WINDOWS.DATE);
+            const winDateEl = document.getElementById('win-date');
+            if(winDateEl) {
+                const dateStr = currentLang === 'ar' ? APP_CONFIG.WINDOWS.DATE_AR : APP_CONFIG.WINDOWS.DATE;
+                winDateEl.innerHTML = (currentLang === 'ar' ? 'تم التحديث في: ' : 'Mise à jour le : ') + dateStr + window.winFireHtml;
+            }
+            
+            const dlBtn = document.getElementById('mainDownloadBtn');
+            if(dlBtn) dlBtn.href = APP_CONFIG.WINDOWS.LINK;
+
+            document.getElementById('ver_flotte').innerText = APP_CONFIG.ANDROID.FLOTTE.VERSION;
+            document.getElementById('date_flotte').innerHTML = (currentLang === 'ar' ? APP_CONFIG.ANDROID.FLOTTE.DATE_AR : APP_CONFIG.ANDROID.FLOTTE.DATE) + getFireIconHTML(APP_CONFIG.ANDROID.FLOTTE.DATE);
+            document.getElementById('apkFlotteBtn').href = APP_CONFIG.ANDROID.FLOTTE.LINK;
+
+            document.getElementById('ver_scale').innerText = APP_CONFIG.ANDROID.SCALE.VERSION;
+            document.getElementById('date_scale').innerHTML = (currentLang === 'ar' ? APP_CONFIG.ANDROID.SCALE.DATE_AR : APP_CONFIG.ANDROID.SCALE.DATE) + getFireIconHTML(APP_CONFIG.ANDROID.SCALE.DATE);
+            document.getElementById('apkScaleBtn').href = APP_CONFIG.ANDROID.SCALE.LINK;
+
+            document.getElementById('ver_resto').innerText = APP_CONFIG.ANDROID.RESTO.VERSION;
+            document.getElementById('date_resto').innerHTML = (currentLang === 'ar' ? APP_CONFIG.ANDROID.RESTO.DATE_AR : APP_CONFIG.ANDROID.RESTO.DATE) + getFireIconHTML(APP_CONFIG.ANDROID.RESTO.DATE);
+            document.getElementById('apkRestoBtn').href = APP_CONFIG.ANDROID.RESTO.LINK;
+
+            document.getElementById('ver_standalone').innerText = APP_CONFIG.ANDROID.STANDALONE.VERSION;
+            document.getElementById('date_standalone').innerHTML = (currentLang === 'ar' ? APP_CONFIG.ANDROID.STANDALONE.DATE_AR : APP_CONFIG.ANDROID.STANDALONE.DATE) + getFireIconHTML(APP_CONFIG.ANDROID.STANDALONE.DATE);
+            document.getElementById('apkStandaloneBtn').href = APP_CONFIG.ANDROID.STANDALONE.LINK;
+
+            const phoneEl = document.getElementById('footerPhone');
+            if(phoneEl) {
+                phoneEl.innerText = APP_CONFIG.CONTACT.PHONE;
+                phoneEl.href = `tel:${APP_CONFIG.CONTACT.PHONE.replace(/\s/g, '')}`;
+            }
+
+            const emailEl = document.getElementById('footerEmail');
+            if(emailEl) {
+                emailEl.innerText = APP_CONFIG.CONTACT.EMAIL;
+                emailEl.href = `mailto:${APP_CONFIG.CONTACT.EMAIL}`;
+            }
+
+            const fbFoot = document.getElementById('footerFbLink');
+            if(fbFoot) fbFoot.href = APP_CONFIG.CONTACT.FACEBOOK;
+
+            document.getElementById('year').innerText = new Date().getFullYear();
+            
+            document.getElementById('featureModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeFeatureModal();
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && !document.getElementById('featureModal').classList.contains('hidden')) {
+                    closeFeatureModal();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
