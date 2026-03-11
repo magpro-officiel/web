@@ -2,44 +2,44 @@
 <html lang="fr" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="theme-color" content="#1e293b">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta property="og:title" content="MagPro">
     <title>MagPro</title>
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
+        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         html[dir="ltr"] body { font-family: 'Poppins', sans-serif; }
         html[dir="rtl"] body { font-family: 'Cairo', sans-serif; }
-        
         html[dir="rtl"] .hero-title-spacing { line-height: 1.4 !important; }
-        
-        .gradient-text { 
-            background: linear-gradient(90deg, #3498db, #2ecc71); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
+
+        .gradient-text {
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
-        .hero-section { 
-            padding-top: 140px !important; 
+
+        .hero-section {
+            padding-top: 120px !important;
             padding-bottom: 80px !important;
             overflow: hidden;
         }
         @media (min-width: 768px) {
-            .hero-section { 
-                padding-top: 180px !important; 
-                padding-bottom: 120px !important;
+            .hero-section {
+                padding-top: 200px !important;
+                padding-bottom: 140px !important;
             }
         }
 
-        .scroll-smooth { scroll-behavior: smooth; }
-        
         #featureModal { transition: opacity 0.3s ease, visibility 0.3s ease; }
         #featureModal.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         #featureModal:not(.hidden) { opacity: 1; visibility: visible; pointer-events: auto; }
-        
         .modal-content { transform: scale(0.95); transition: transform 0.3s ease; }
         #featureModal:not(.hidden) .modal-content { transform: scale(1); }
 
@@ -50,34 +50,54 @@
             transform: translateY(20px);
         }
         #backToTop.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
-        
+
         @keyframes pulse-glow {
-            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
-            70% { box-shadow: 0 0 0 20px rgba(59, 130, 246, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+            0%   { box-shadow: 0 0 0 0 rgba(59,130,246,0.7); }
+            70%  { box-shadow: 0 0 0 20px rgba(59,130,246,0); }
+            100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
         }
         @keyframes fadeInUp {
-            0% { opacity: 0; transform: translateY(30px); }
+            0%   { opacity: 0; transform: translateY(30px); }
             100% { opacity: 1; transform: translateY(0); }
         }
-        .animate-fade-in-up { animation: fadeInUp 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
-        
-        .hover-lift { transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease; }
+        @keyframes yt-btn-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.7); }
+            50%       { box-shadow: 0 0 0 12px rgba(220,38,38,0); }
+        }
+
+        .animate-fade-in-up { animation: fadeInUp 0.8s cubic-bezier(0.25,0.8,0.25,1) forwards; }
+        .hover-lift { transition: transform 0.3s cubic-bezier(0.25,0.8,0.25,1), box-shadow 0.3s ease; }
         .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        
         .pulse-btn { animation: pulse-glow 2s infinite; }
 
         #mobileMenu { transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; max-height: 0; opacity: 0; overflow: hidden; }
-        #mobileMenu.open { max-height: 400px; opacity: 1; }
+        #mobileMenu.open { max-height: 500px; opacity: 1; }
+
+        nav { transition: background 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease; }
+        nav.scrolled {
+            background: rgba(255,255,255,0.92) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.06), 0 4px 24px rgba(0,0,0,0.07) !important;
+        }
+        .nav-link { position: relative; padding-bottom: 2px; }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
+            height: 2px; background: #2563eb; border-radius: 2px;
+            transform: scaleX(0); transition: transform 0.25s ease;
+        }
+        .nav-link:hover::after { transform: scaleX(1); }
+
+        img, iframe, video { max-width: 100%; }
+        a, button { touch-action: manipulation; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 scroll-smooth">
+<body class="bg-gray-50 text-gray-800">
 
     <script>
         const APP_CONFIG = {
             CONTACT: {
                 PHONE: "0770 72 71 67",
-                EMAIL: "",
                 FACEBOOK: "https://web.facebook.com/magpro.officiel"
             },
             WINDOWS: {
@@ -164,7 +184,7 @@
                 app4_desc: "حل مستقل 100%. يسير المخزون، المشتريات والمبيعات محلياً على الهاتف.",
                 btn_download_apk: "تحميل APK",
                 up_win: "آخر إصدار Windows",
-                up_title: "تحميل MagPro (الكمبيوتر الخادم)",
+                up_title: "تحميل MagPro",
                 up_setup: "نسخة MagPro Setup ",
                 up_fix1: "إصلاح الأخطاء الطفيفة.",
                 up_fix2: "تحسين السرعة.",
@@ -172,11 +192,19 @@
                 up_dl_for: "تحميل لـ",
                 up_win_ver: "Windows 10/11 (64-bit)",
                 up_secure: "ملف آمن ومفحوص خالي من الفيروسات.",
+                up_trial: "فترة تجريبية مجانية لمدة 7 أيام",
+                up_trial_sub: "جرّب بدون أي التزام",
+                up_req_title: "متطلبات التشغيل",
+                up_req_os: "Windows 10/11 (64-bit)",
                 foot_desc: "النظام البرمجي الجزائري المصمم لتسهيل يومياتك، من الكاسة إلى هاتفك الذكي.",
                 foot_contact: "اتصل بنا",
                 foot_loc: "سكيكدة، الجزائر",
-                foot_copy1: "MagPro. تم التطوير بواسطة",
-                foot_copy2: "جميع الحقوق محفوظة."
+                foot_copy1: "تم التطوير بواسطة",
+                foot_copy2: "جميع الحقوق محفوظة.",
+                yt_badge: "قناة يوتيوب الرسمية",
+                yt_title: "MagPro — دروس وشروحات",
+                yt_btn: "زيارة القناة",
+                yt_desc_short: "جميع شروحات البرنامج متوفرة على قناتنا الرسمية."
             },
             fr: {
                 nav_features: "Fonctionnalités",
@@ -227,7 +255,7 @@
                 app4_desc: "Une solution 100% indépendante. Gère le stock, les achats et les ventes localement sur le Smartphone.",
                 btn_download_apk: "Télécharger APK",
                 up_win: "Dernière Version Windows",
-                up_title: "Télécharger MagPro (Serveur PC)",
+                up_title: "Télécharger MagPro",
                 up_setup: "MagPro Setup ",
                 up_fix1: "Correction des bugs mineurs.",
                 up_fix2: "Amélioration de la vitesse.",
@@ -235,11 +263,19 @@
                 up_dl_for: "Télécharger pour",
                 up_win_ver: "Windows 10/11 (64-bit)",
                 up_secure: "Fichier sécurisé et scanné sans virus.",
+                up_trial: "Période d'essai gratuite de 7 jours",
+                up_trial_sub: "Essayez sans engagement",
+                up_req_title: "Configuration Requise",
+                up_req_os: "Windows 10/11 (64-bit)",
                 foot_desc: "L'écosystème logiciel Algérien conçu pour simplifier votre quotidien, de la caisse jusqu'à votre Smartphone.",
                 foot_contact: "Contactez-nous",
                 foot_loc: "Skikda, Algérie",
-                foot_copy1: "MagPro. Développé par",
-                foot_copy2: "Tous droits réservés."
+                foot_copy1: "Développé par",
+                foot_copy2: "Tous droits réservés.",
+                yt_badge: "Chaîne YouTube Officielle",
+                yt_title: "MagPro — Tutoriels & Guides",
+                yt_btn: "Visiter la Chaîne",
+                yt_desc_short: "Toutes les démonstrations et guides du logiciel disponibles sur notre chaîne."
             }
         };
 
@@ -350,22 +386,22 @@
             currentLang = currentLang === 'fr' ? 'ar' : 'fr';
             document.documentElement.lang = currentLang;
             document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-            
+
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if(translations[currentLang][key]) {
+                if (translations[currentLang][key]) {
                     el.innerHTML = translations[currentLang][key];
                 }
             });
 
             document.getElementById('langToggleBtn').innerText = currentLang === 'ar' ? 'Français' : 'العربية';
-            
-            if(document.getElementById('mobileMenu').classList.contains('open')) {
+
+            if (document.getElementById('mobileMenu').classList.contains('open')) {
                 toggleMobileMenu();
             }
 
             const winDateEl = document.getElementById('win-date');
-            if(winDateEl) {
+            if (winDateEl) {
                 const dateStr = currentLang === 'ar' ? APP_CONFIG.WINDOWS.DATE_AR : APP_CONFIG.WINDOWS.DATE;
                 winDateEl.innerHTML = (currentLang === 'ar' ? 'تم التحديث في: ' : 'Mise à jour le : ') + dateStr + window.winFireHtml;
             }
@@ -375,7 +411,7 @@
             document.getElementById('date_resto').innerHTML = (currentLang === 'ar' ? APP_CONFIG.ANDROID.RESTO.DATE_AR : APP_CONFIG.ANDROID.RESTO.DATE) + getFireIconHTML(APP_CONFIG.ANDROID.RESTO.DATE);
             document.getElementById('date_standalone').innerHTML = (currentLang === 'ar' ? APP_CONFIG.ANDROID.STANDALONE.DATE_AR : APP_CONFIG.ANDROID.STANDALONE.DATE) + getFireIconHTML(APP_CONFIG.ANDROID.STANDALONE.DATE);
 
-            if(currentModalKey && !document.getElementById('featureModal').classList.contains('hidden')) {
+            if (currentModalKey && !document.getElementById('featureModal').classList.contains('hidden')) {
                 openFeatureModal(currentModalKey);
             }
         }
@@ -384,12 +420,12 @@
             currentModalKey = key;
             const data = featureDetails[key];
             const langData = data[currentLang];
-            
+
             document.getElementById('modalIcon').className = `fa-solid ${data.icon} ${data.color} text-4xl`;
             document.getElementById('modalIconBg').className = `w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${data.bg}`;
             document.getElementById('modalTitle').innerText = langData.title;
             document.getElementById('modalDesc').innerText = langData.description;
-            
+
             const ul = document.getElementById('modalPoints');
             ul.innerHTML = '';
             langData.points.forEach(point => {
@@ -409,17 +445,13 @@
         }
 
         function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('open');
+            document.getElementById('mobileMenu').classList.toggle('open');
         }
 
-        window.onscroll = function() {
-            const topBtn = document.getElementById("backToTop");
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                topBtn.classList.add("show");
-            } else {
-                topBtn.classList.remove("show");
-            }
+        window.onscroll = function () {
+            const scrollY = document.body.scrollTop || document.documentElement.scrollTop;
+            document.getElementById('backToTop').classList.toggle('show', scrollY > 300);
+            document.getElementById('mainNav').classList.toggle('scrolled', scrollY > 10);
         };
 
         function scrollToTop() {
@@ -435,65 +467,68 @@
                     const month = months[parts[1]];
                     const year = parseInt(parts[2], 10);
                     if (!isNaN(day) && month !== undefined && !isNaN(year)) {
-                        const updateDate = new Date(year, month, day);
-                        const today = new Date();
-                        const diffDays = (today - updateDate) / (1000 * 60 * 60 * 24);
-                        if (diffDays <= 30) {
-                            return ' <span class="text-orange-500 animate-pulse text-lg" title="Mise à jour récente">🔥</span>';
-                        }
+                        const diffDays = (new Date() - new Date(year, month, day)) / 86400000;
+                        if (diffDays <= 30) return ' <span class="text-orange-500 animate-pulse text-lg">🔥</span>';
                     }
                 }
-            } catch(e) {}
+            } catch (e) {}
             return '';
         }
     </script>
 
-    <nav class="bg-white shadow-md fixed w-full z-50 top-0">
+    <nav id="mainNav" class="bg-white/95 shadow-sm fixed w-full z-50 top-0 border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex-shrink-0 flex items-center gap-2">
-                    <i class="fa-solid fa-layer-group text-blue-600 text-3xl"></i>
-                    <span class="text-2xl font-bold text-gray-800 tracking-tight">Mag<span class="text-blue-600">Pro</span></span>
+            <div class="flex justify-between h-16 sm:h-[70px] items-center">
+                <div class="flex-shrink-0 flex items-center gap-2.5">
+                    <div class="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center shadow-md">
+                        <i class="fa-solid fa-layer-group text-white text-lg"></i>
+                    </div>
+                    <span class="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight">Mag<span class="text-blue-600">Pro</span></span>
                 </div>
-                
-                <div class="hidden lg:flex items-center gap-6 xl:gap-8">
-                    <a href="#features" data-i18n="nav_features" class="text-gray-700 hover:text-blue-600 font-bold transition text-sm xl:text-base">Fonctionnalités</a>
-                    <a href="#update" class="text-gray-700 hover:text-blue-600 font-bold transition flex items-center gap-2 text-sm xl:text-base">
-                        <i class="fa-solid fa-download text-blue-500"></i> <span data-i18n="nav_pc">Windows PC</span>
+
+                <div class="hidden lg:flex items-center gap-1 xl:gap-2">
+                    <a href="#features" data-i18n="nav_features" class="nav-link text-gray-600 hover:text-blue-600 font-semibold transition px-3 py-2 rounded-lg hover:bg-blue-50 text-sm xl:text-[15px]">Fonctionnalités</a>
+                    <a href="#update" class="nav-link text-gray-600 hover:text-blue-600 font-semibold transition px-3 py-2 rounded-lg hover:bg-blue-50 flex items-center gap-1.5 text-sm xl:text-[15px]">
+                        <i class="fa-brands fa-windows text-blue-500 text-base"></i>
+                        <span data-i18n="nav_pc">Windows PC</span>
                     </a>
-                    <a href="#mobile-apps" class="text-gray-700 hover:text-blue-600 font-bold transition flex items-center gap-2 text-sm xl:text-base">
-                        <i class="fa-brands fa-android text-green-500"></i> <span data-i18n="nav_apps">Applications Android</span>
+                    <a href="#mobile-apps" class="nav-link text-gray-600 hover:text-blue-600 font-semibold transition px-3 py-2 rounded-lg hover:bg-blue-50 flex items-center gap-1.5 text-sm xl:text-[15px]">
+                        <i class="fa-brands fa-android text-green-500 text-base"></i>
+                        <span data-i18n="nav_apps">Applications Android</span>
                     </a>
-                    <a href="#install-guide" data-i18n="nav_install" class="text-gray-700 hover:text-blue-600 font-bold transition text-sm xl:text-base">Guide d'installation</a>
-                    <a href="#contact" data-i18n="nav_contact" class="text-gray-700 hover:text-blue-600 font-bold transition text-sm xl:text-base">Contact</a>
-                    
-                    <button onclick="toggleLanguage()" id="langToggleBtn" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-5 py-2.5 rounded-xl font-bold transition ms-2 text-sm border border-gray-200 shadow-sm">
+                    <a href="#install-guide" data-i18n="nav_install" class="nav-link text-gray-600 hover:text-blue-600 font-semibold transition px-3 py-2 rounded-lg hover:bg-blue-50 text-sm xl:text-[15px]">Guide d'installation</a>
+                    <a href="#contact" data-i18n="nav_contact" class="nav-link text-gray-600 hover:text-blue-600 font-semibold transition px-3 py-2 rounded-lg hover:bg-blue-50 text-sm xl:text-[15px]">Contact</a>
+                    <div class="w-px h-6 bg-gray-200 mx-2"></div>
+                    <button onclick="toggleLanguage()" id="langToggleBtn" class="flex items-center gap-2 bg-gray-900 hover:bg-gray-700 text-white px-4 py-2 rounded-xl font-bold transition text-sm shadow-sm">
+                        <i class="fa-solid fa-globe text-sm opacity-80"></i>
                         العربية
                     </button>
                 </div>
-                
-                <div class="lg:hidden flex items-center gap-4">
-                    <button onclick="toggleLanguage()" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-2 rounded-lg font-bold transition text-xs border border-gray-200 shadow-sm">
-                        <i class="fa-solid fa-globe text-lg"></i>
+
+                <div class="lg:hidden flex items-center gap-3">
+                    <button onclick="toggleLanguage()" class="flex items-center gap-1.5 bg-gray-900 hover:bg-gray-700 text-white px-3 py-2 rounded-lg font-bold transition text-xs min-h-[40px]">
+                        <i class="fa-solid fa-globe text-sm"></i>
                     </button>
-                    <button onclick="toggleMobileMenu()" class="text-gray-700 hover:text-blue-600 focus:outline-none p-2">
-                        <i class="fa-solid fa-bars text-2xl"></i>
+                    <button onclick="toggleMobileMenu()" class="text-gray-700 hover:text-blue-600 focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition min-h-[40px] min-w-[40px] flex items-center justify-center">
+                        <i class="fa-solid fa-bars text-xl"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        <div id="mobileMenu" class="bg-white border-t border-gray-100 lg:hidden shadow-lg">
-            <div class="px-4 py-4 space-y-3 flex flex-col">
-                <a href="#features" onclick="toggleMobileMenu()" data-i18n="nav_features" class="block text-gray-700 hover:bg-gray-50 px-3 py-2 rounded-md font-bold text-base">Fonctionnalités</a>
-                <a href="#update" onclick="toggleMobileMenu()" class="block text-gray-700 hover:bg-gray-50 px-3 py-2 rounded-md font-bold text-base flex items-center gap-2">
-                    <i class="fa-solid fa-download text-blue-500"></i> <span data-i18n="nav_pc">Windows PC</span>
+        <div id="mobileMenu" class="bg-white border-t border-gray-100 lg:hidden">
+            <div class="px-4 py-3 space-y-1 flex flex-col">
+                <a href="#features" onclick="toggleMobileMenu()" data-i18n="nav_features" class="flex items-center gap-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 px-4 py-3 rounded-xl font-semibold text-base transition min-h-[48px]">Fonctionnalités</a>
+                <a href="#update" onclick="toggleMobileMenu()" class="flex items-center gap-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 px-4 py-3 rounded-xl font-semibold text-base transition min-h-[48px]">
+                    <i class="fa-brands fa-windows text-blue-500 text-lg"></i>
+                    <span data-i18n="nav_pc">Windows PC</span>
                 </a>
-                <a href="#mobile-apps" onclick="toggleMobileMenu()" class="block text-gray-700 hover:bg-gray-50 px-3 py-2 rounded-md font-bold text-base flex items-center gap-2">
-                    <i class="fa-brands fa-android text-green-500"></i> <span data-i18n="nav_apps">Applications Android</span>
+                <a href="#mobile-apps" onclick="toggleMobileMenu()" class="flex items-center gap-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 px-4 py-3 rounded-xl font-semibold text-base transition min-h-[48px]">
+                    <i class="fa-brands fa-android text-green-500 text-lg"></i>
+                    <span data-i18n="nav_apps">Applications Android</span>
                 </a>
-                <a href="#install-guide" onclick="toggleMobileMenu()" data-i18n="nav_install" class="block text-gray-700 hover:bg-gray-50 px-3 py-2 rounded-md font-bold text-base">Guide d'installation</a>
-                <a href="#contact" onclick="toggleMobileMenu()" data-i18n="nav_contact" class="block text-gray-700 hover:bg-gray-50 px-3 py-2 rounded-md font-bold text-base">Contact</a>
+                <a href="#install-guide" onclick="toggleMobileMenu()" data-i18n="nav_install" class="flex items-center gap-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 px-4 py-3 rounded-xl font-semibold text-base transition min-h-[48px]">Guide d'installation</a>
+                <a href="#contact" onclick="toggleMobileMenu()" data-i18n="nav_contact" class="flex items-center gap-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 px-4 py-3 rounded-xl font-semibold text-base transition min-h-[48px]">Contact</a>
             </div>
         </div>
     </nav>
@@ -501,9 +536,10 @@
     <section class="hero-section bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900 text-white text-center">
         <div class="max-w-4xl mx-auto px-4">
             <h1 class="hero-title-spacing text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 sm:mb-8 leading-tight animate-fade-in-up">
-                <span data-i18n="hero_title1">La Solution Ultime pour Gérer <br></span> <span class="gradient-text" data-i18n="hero_title2">Votre Commerce</span>
+                <span data-i18n="hero_title1">La Solution Ultime pour Gérer <br></span>
+                <span class="gradient-text" data-i18n="hero_title2">Votre Commerce</span>
             </h1>
-            <p data-i18n="hero_desc" class="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 text-gray-300 max-w-3xl mx-auto px-2 animate-fade-in-up leading-relaxed" style="animation-delay: 0.2s;">
+            <p data-i18n="hero_desc" class="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 text-gray-300 max-w-3xl mx-auto px-2 animate-fade-in-up leading-relaxed" style="animation-delay:0.2s;">
                 Commerces, Restaurants, ou Distribution. MagPro est le logiciel de facturation et de gestion de stock le plus complet, rapide et sécurisé.
             </p>
         </div>
@@ -515,7 +551,6 @@
                 <h2 data-i18n="feat_title" class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">Découvrez la puissance de MagPro</h2>
                 <p data-i18n="feat_desc" class="text-gray-500 text-sm sm:text-lg lg:text-xl max-w-2xl mx-auto">Cliquez sur un module pour explorer toutes ses capacités extraites de notre technologie.</p>
             </div>
-            
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-10">
                 <div onclick="openFeatureModal('superette')" class="p-6 sm:p-10 bg-white rounded-3xl shadow-xl transition-all duration-300 border border-gray-100 group cursor-pointer hover-lift flex flex-col items-center text-center">
                     <div class="w-16 h-16 sm:w-20 sm:h-20 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 text-3xl sm:text-4xl mb-4 sm:mb-6 group-hover:bg-blue-600 group-hover:text-white transition shadow-sm">
@@ -525,7 +560,6 @@
                     <p data-i18n="feat_card1_desc" class="text-gray-600 text-sm sm:text-base leading-relaxed mb-4 sm:mb-6 flex-grow">Gestion multi-tarifs (Détail, Demi-gros, Gros). Prise en charge des codes-barres, balances et gestion de stock avancée.</p>
                     <span class="text-blue-600 font-bold text-sm sm:text-base bg-blue-50 px-4 py-2 sm:px-6 sm:py-2 rounded-full group-hover:bg-blue-100 transition"><span data-i18n="feat_card1_link">En savoir plus</span> <i class="fa-solid fa-arrow-right ms-2 rtl:rotate-180"></i></span>
                 </div>
-
                 <div onclick="openFeatureModal('resto')" class="p-6 sm:p-10 bg-white rounded-3xl shadow-xl transition-all duration-300 border border-gray-100 group cursor-pointer hover-lift flex flex-col items-center text-center">
                     <div class="w-16 h-16 sm:w-20 sm:h-20 bg-orange-50 rounded-2xl flex items-center justify-center text-orange-600 text-3xl sm:text-4xl mb-4 sm:mb-6 group-hover:bg-orange-600 group-hover:text-white transition shadow-sm">
                         <i class="fa-solid fa-utensils"></i>
@@ -534,7 +568,6 @@
                     <p data-i18n="feat_card2_desc" class="text-gray-600 text-sm sm:text-base leading-relaxed mb-4 sm:mb-6 flex-grow">Plan de tables interactif. Impression directe en cuisine. Menu digital QR Code. Gestion des suppléments.</p>
                     <span class="text-orange-600 font-bold text-sm sm:text-base bg-orange-50 px-4 py-2 sm:px-6 sm:py-2 rounded-full group-hover:bg-orange-100 transition"><span data-i18n="feat_card2_link">En savoir plus</span> <i class="fa-solid fa-arrow-right ms-2 rtl:rotate-180"></i></span>
                 </div>
-
                 <div onclick="openFeatureModal('van')" class="p-6 sm:p-10 bg-white rounded-3xl shadow-xl transition-all duration-300 border border-gray-100 group cursor-pointer hover-lift flex flex-col items-center text-center">
                     <div class="w-16 h-16 sm:w-20 sm:h-20 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-600 text-3xl sm:text-4xl mb-4 sm:mb-6 group-hover:bg-purple-600 group-hover:text-white transition shadow-sm">
                         <i class="fa-solid fa-truck-fast"></i>
@@ -550,24 +583,32 @@
     <section id="update" class="py-16 sm:py-24 bg-gray-900 text-white border-b border-gray-800">
         <div class="max-w-5xl mx-auto px-4 text-center">
             <span data-i18n="up_win" class="text-blue-400 font-bold tracking-widest uppercase mb-4 block text-xs sm:text-base animate-fade-in-up">Dernière Version Windows</span>
-            <h2 data-i18n="up_title" class="text-2xl sm:text-4xl lg:text-5xl font-extrabold mb-8 sm:mb-12 animate-fade-in-up" style="animation-delay: 0.1s;">Télécharger MagPro (Serveur PC)</h2>
-            
-            <div class="bg-gray-800 p-6 sm:p-12 rounded-3xl shadow-2xl border border-gray-700 relative overflow-hidden animate-fade-in-up" style="animation-delay: 0.2s;">
+            <h2 data-i18n="up_title" class="text-2xl sm:text-4xl lg:text-5xl font-extrabold mb-8 sm:mb-12 animate-fade-in-up" style="animation-delay:0.1s;">Télécharger MagPro</h2>
+
+            <div class="bg-gray-800 p-6 sm:p-12 rounded-3xl shadow-2xl border border-gray-700 relative overflow-hidden animate-fade-in-up" style="animation-delay:0.2s;">
                 <div class="absolute -right-10 -top-10 text-gray-700 opacity-10 hidden md:block">
                     <i class="fa-brands fa-windows text-[250px]"></i>
                 </div>
                 <div class="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-10 relative z-10">
                     <div class="text-start w-full md:w-auto">
-                        <h3 class="text-2xl sm:text-4xl font-extrabold text-white mb-2 sm:mb-3" dir="ltr"><span data-i18n="up_setup">MagPro Setup </span><span dir="ltr" class="text-blue-400">v<span class="win-version"></span></span></h3>
+                        <h3 class="text-2xl sm:text-4xl font-extrabold text-white mb-2 sm:mb-3" dir="ltr">
+                            <span data-i18n="up_setup">MagPro Setup </span><span class="text-blue-400">v<span class="win-version"></span></span>
+                        </h3>
                         <p class="text-gray-400 text-xs sm:text-base font-medium mb-4 sm:mb-6" id="win-date"></p>
-                        <ul class="text-gray-300 space-y-2 sm:space-y-3 text-sm sm:text-lg">
+                        <ul class="text-gray-300 space-y-2 sm:space-y-3 text-sm sm:text-lg mb-5 sm:mb-7">
                             <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-green-400"></i> <span data-i18n="up_fix1">Correction des bugs mineurs.</span></li>
                             <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-green-400"></i> <span data-i18n="up_fix2">Amélioration de la vitesse.</span></li>
                             <li class="flex items-center gap-3"><i class="fa-solid fa-check-circle text-green-400"></i> <span data-i18n="up_fix3">Nouvelle fonctionnalité.</span></li>
                         </ul>
+                        <div class="border-t border-gray-700 pt-4 sm:pt-5">
+                            <p class="text-gray-500 text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-2"><span data-i18n="up_req_title">Configuration Requise</span></p>
+                            <span class="inline-flex items-center gap-2 text-gray-300 text-xs sm:text-sm font-medium">
+                                <i class="fa-brands fa-windows text-blue-400 text-base"></i>
+                                <span data-i18n="up_req_os">Windows 10/11 (64-bit)</span>
+                            </span>
+                        </div>
                     </div>
-                    
-                    <a id="mainDownloadBtn" href="#" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-4 sm:px-10 sm:py-6 rounded-2xl font-bold text-base sm:text-xl shadow-[0_0_30px_rgba(37,99,235,0.4)] transition flex items-center gap-4 w-full md:w-auto justify-center pulse-btn transform hover:-translate-y-1">
+                    <a id="mainDownloadBtn" href="#" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-4 sm:px-10 sm:py-6 rounded-2xl font-bold text-base sm:text-xl shadow-[0_0_30px_rgba(37,99,235,0.4)] transition flex items-center gap-4 w-full md:w-auto justify-center pulse-btn hover:-translate-y-1 min-h-[60px]">
                         <i class="fa-brands fa-windows text-2xl sm:text-4xl"></i>
                         <div class="text-start">
                             <div data-i18n="up_dl_for" class="text-[10px] sm:text-sm font-normal opacity-90 uppercase tracking-wide">Télécharger pour</div>
@@ -575,8 +616,29 @@
                         </div>
                     </a>
                 </div>
+                <div class="border-t border-gray-700 mt-6 sm:mt-8 pt-4 sm:pt-5 relative z-10 text-center">
+                    <p class="text-gray-400 text-xs sm:text-sm font-medium">
+                        <i class="fa-solid fa-shield-halved text-green-400 me-2"></i>
+                        <span data-i18n="up_secure">Fichier sécurisé et scanné sans virus.</span>
+                    </p>
+                </div>
             </div>
-            <p class="mt-6 sm:mt-8 text-gray-400 text-xs sm:text-base font-medium animate-fade-in-up" style="animation-delay: 0.3s;"><i class="fa-solid fa-shield-halved text-green-400 me-2 text-base sm:text-lg"></i> <span data-i18n="up_secure">Fichier sécurisé et scanné sans virus.</span></p>
+
+            <div class="mt-6 sm:mt-8 animate-fade-in-up" style="animation-delay:0.3s;">
+                <div class="relative inline-block">
+                    <div class="absolute inset-0 bg-orange-500/30 blur-2xl rounded-3xl"></div>
+                    <div class="relative bg-gradient-to-r from-orange-600/30 via-red-500/30 to-orange-600/30 border-2 border-orange-400/80 text-white px-8 py-4 sm:px-14 sm:py-6 rounded-2xl shadow-[0_0_40px_rgba(249,115,22,0.4)]">
+                        <div class="flex items-center justify-center gap-3 sm:gap-5">
+                            <span class="text-3xl sm:text-4xl animate-pulse" style="filter:drop-shadow(0 0 8px rgba(249,115,22,0.9))">🔥</span>
+                            <div class="text-start">
+                                <p class="text-orange-300 text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-1" data-i18n="up_trial_sub">Essayez sans engagement</p>
+                                <p class="text-white text-lg sm:text-2xl font-extrabold leading-tight" data-i18n="up_trial">Période d'essai gratuite de 7 jours</p>
+                            </div>
+                            <span class="text-3xl sm:text-4xl animate-pulse" style="filter:drop-shadow(0 0 8px rgba(249,115,22,0.9));animation-delay:0.3s;">🔥</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -587,7 +649,6 @@
                 <h2 data-i18n="apps_title" class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">Télécharger nos Applications Mobile (APK)</h2>
                 <p data-i18n="apps_desc" class="text-gray-500 text-sm sm:text-lg lg:text-xl max-w-2xl mx-auto">Étendez la puissance de MagPro sur vos Smartphones Android.</p>
             </div>
-
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                 <div class="bg-white p-5 sm:p-8 rounded-3xl shadow-lg border-t-8 border-blue-500 transition hover-lift flex flex-col h-full relative group">
                     <div class="flex items-center gap-4 mb-4">
@@ -601,7 +662,7 @@
                     </div>
                     <p class="text-[10px] sm:text-xs text-gray-400 mb-4 flex items-center font-medium"><i class="fa-regular fa-calendar me-2"></i> <span id="date_flotte"></span></p>
                     <p data-i18n="app1_desc" class="text-gray-600 text-xs sm:text-base mb-6 sm:mb-8 flex-grow leading-relaxed">L'application connectée au PC. Pour les vendeurs sur terrain (Van Selling). Inclut GPS, facturation hors-ligne et requêtes de stock.</p>
-                    <a id="apkFlotteBtn" href="#" class="w-full block text-center bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-700 font-bold py-3 sm:py-4 rounded-xl transition text-sm sm:text-base shadow-sm">
+                    <a id="apkFlotteBtn" href="#" class="w-full block text-center bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-700 font-bold py-3 sm:py-4 rounded-xl transition text-sm sm:text-base shadow-sm min-h-[48px] flex items-center justify-center">
                         <i class="fa-brands fa-android me-2 text-lg"></i> <span data-i18n="btn_download_apk">Télécharger APK</span>
                     </a>
                 </div>
@@ -618,7 +679,7 @@
                     </div>
                     <p class="text-[10px] sm:text-xs text-gray-400 mb-4 flex items-center font-medium"><i class="fa-regular fa-calendar me-2"></i> <span id="date_scale"></span></p>
                     <p data-i18n="app2_desc" class="text-gray-600 text-xs sm:text-base mb-6 sm:mb-8 flex-grow leading-relaxed">Transformez un Smartphone Android en balance connectée au stock. Calcule les prix au gramme et imprime des étiquettes codes-barres.</p>
-                    <a id="apkScaleBtn" href="#" class="w-full block text-center bg-orange-50 hover:bg-orange-600 hover:text-white text-orange-700 font-bold py-3 sm:py-4 rounded-xl transition text-sm sm:text-base shadow-sm">
+                    <a id="apkScaleBtn" href="#" class="w-full block text-center bg-orange-50 hover:bg-orange-600 hover:text-white text-orange-700 font-bold py-3 sm:py-4 rounded-xl transition text-sm sm:text-base shadow-sm min-h-[48px] flex items-center justify-center">
                         <i class="fa-brands fa-android me-2 text-lg"></i> <span data-i18n="btn_download_apk">Télécharger APK</span>
                     </a>
                 </div>
@@ -635,7 +696,7 @@
                     </div>
                     <p class="text-[10px] sm:text-xs text-gray-400 mb-4 flex items-center font-medium"><i class="fa-regular fa-calendar me-2"></i> <span id="date_resto"></span></p>
                     <p data-i18n="app3_desc" class="text-gray-600 text-xs sm:text-base mb-6 sm:mb-8 flex-grow leading-relaxed">Prise de commande mobile pour les serveurs. Envoie direct en cuisine, gestion des tables et division des additions.</p>
-                    <a id="apkRestoBtn" href="#" class="w-full block text-center bg-red-50 hover:bg-red-600 hover:text-white text-red-700 font-bold py-3 sm:py-4 rounded-xl transition text-sm sm:text-base shadow-sm">
+                    <a id="apkRestoBtn" href="#" class="w-full block text-center bg-red-50 hover:bg-red-600 hover:text-white text-red-700 font-bold py-3 sm:py-4 rounded-xl transition text-sm sm:text-base shadow-sm min-h-[48px] flex items-center justify-center">
                         <i class="fa-brands fa-android me-2 text-lg"></i> <span data-i18n="btn_download_apk">Télécharger APK</span>
                     </a>
                 </div>
@@ -652,11 +713,10 @@
                     </div>
                     <p class="text-[10px] sm:text-xs text-gray-400 mb-4 flex items-center font-medium"><i class="fa-regular fa-calendar me-2"></i> <span id="date_standalone"></span></p>
                     <p data-i18n="app4_desc" class="text-gray-600 text-xs sm:text-base mb-6 sm:mb-8 flex-grow leading-relaxed">Une solution 100% indépendante. Gère le stock, les achats et les ventes localement sur le Smartphone.</p>
-                    <a id="apkStandaloneBtn" href="#" class="w-full block text-center bg-purple-50 hover:bg-purple-600 hover:text-white text-purple-700 font-bold py-3 sm:py-4 rounded-xl transition text-sm sm:text-base shadow-sm">
+                    <a id="apkStandaloneBtn" href="#" class="w-full block text-center bg-purple-50 hover:bg-purple-600 hover:text-white text-purple-700 font-bold py-3 sm:py-4 rounded-xl transition text-sm sm:text-base shadow-sm min-h-[48px] flex items-center justify-center">
                         <i class="fa-brands fa-android me-2 text-lg"></i> <span data-i18n="btn_download_apk">Télécharger APK</span>
                     </a>
                 </div>
-
             </div>
         </div>
     </section>
@@ -670,65 +730,80 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10">
                 <div class="bg-blue-50/30 p-6 sm:p-12 rounded-3xl border border-blue-100 hover-lift shadow-sm flex flex-col">
                     <div class="flex items-center gap-4 sm:gap-5 mb-6 sm:mb-8">
-                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-blue-600 text-white rounded-2xl flex items-center justify-center text-xl sm:text-2xl shadow-lg">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-blue-600 text-white rounded-2xl flex items-center justify-center text-xl sm:text-2xl shadow-lg shrink-0">
                             <i class="fa-solid fa-download"></i>
                         </div>
                         <h3 data-i18n="inst_new_title" class="text-xl sm:text-3xl font-bold text-gray-900">Nouvelle Installation</h3>
                     </div>
                     <p data-i18n="inst_new_desc" class="text-gray-600 mb-6 sm:mb-8 text-sm sm:text-lg leading-relaxed">Lors de la première installation, le setup vous offre les choix suivants :</p>
-                    
                     <div class="space-y-6 sm:space-y-8">
                         <div>
                             <h4 data-i18n="inst_mode_title" class="font-extrabold text-blue-700 mb-3 sm:mb-4 text-base sm:text-xl">1. Mode du Programme :</h4>
                             <ul class="space-y-3 sm:space-y-4 text-sm sm:text-lg text-gray-700 font-medium">
-                                <li class="flex items-start gap-3"><i class="fa-solid fa-box text-blue-500 mt-1 sm:mt-1.5 text-lg sm:text-xl"></i> <span data-i18n="inst_mode_stock">Gestion de Stock : Dédié aux commerces et points de vente.</span></li>
-                                <li class="flex items-start gap-3"><i class="fa-solid fa-utensils text-blue-500 mt-1 sm:mt-1.5 text-lg sm:text-xl"></i> <span data-i18n="inst_mode_resto">Restaurant : Optimisé pour la gestion des restaurants et cafés.</span></li>
+                                <li class="flex items-start gap-3"><i class="fa-solid fa-box text-blue-500 mt-1 sm:mt-1.5 text-lg sm:text-xl shrink-0"></i> <span data-i18n="inst_mode_stock">Gestion de Stock : Dédié aux commerces et points de vente.</span></li>
+                                <li class="flex items-start gap-3"><i class="fa-solid fa-utensils text-blue-500 mt-1 sm:mt-1.5 text-lg sm:text-xl shrink-0"></i> <span data-i18n="inst_mode_resto">Restaurant : Optimisé pour la gestion des restaurants et cafés.</span></li>
                             </ul>
                         </div>
                         <div class="pt-6 border-t border-blue-100">
                             <h4 data-i18n="inst_type_title" class="font-extrabold text-blue-700 mb-3 sm:mb-4 text-base sm:text-xl">2. Type d'installation :</h4>
                             <ul class="space-y-3 sm:space-y-4 text-sm sm:text-lg text-gray-700 font-medium">
-                                <li class="flex items-start gap-3"><i class="fa-solid fa-server text-blue-500 mt-1 sm:mt-1.5 text-lg sm:text-xl"></i> <span data-i18n="inst_type_server">Serveur : Installe la base de données Firebird et les fichiers centraux sur le poste principal.</span></li>
-                                <li class="flex items-start gap-3"><i class="fa-solid fa-desktop text-blue-500 mt-1 sm:mt-1.5 text-lg sm:text-xl"></i> <span data-i18n="inst_type_client">Client : Connecte le poste secondaire au serveur via son adresse IP.</span></li>
+                                <li class="flex items-start gap-3"><i class="fa-solid fa-server text-blue-500 mt-1 sm:mt-1.5 text-lg sm:text-xl shrink-0"></i> <span data-i18n="inst_type_server">Serveur : Installe la base de données Firebird et les fichiers centraux sur le poste principal.</span></li>
+                                <li class="flex items-start gap-3"><i class="fa-solid fa-desktop text-blue-500 mt-1 sm:mt-1.5 text-lg sm:text-xl shrink-0"></i> <span data-i18n="inst_type_client">Client : Connecte le poste secondaire au serveur via son adresse IP.</span></li>
                             </ul>
                         </div>
                     </div>
                     <div class="mt-auto pt-6 border-t border-blue-100">
                         <div class="relative w-full rounded-2xl overflow-hidden shadow-md" style="padding-bottom:56.25%;">
-                            <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/pscS_GwxoGE?si=Rs_7OghwjD_f-MWG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/pscS_GwxoGE?si=Rs_7OghwjD_f-MWG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
                         </div>
                     </div>
                 </div>
 
                 <div class="bg-green-50/30 p-6 sm:p-12 rounded-3xl border border-green-100 hover-lift shadow-sm flex flex-col">
                     <div class="flex items-center gap-4 sm:gap-5 mb-6 sm:mb-8">
-                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-green-500 text-white rounded-2xl flex items-center justify-center text-xl sm:text-2xl shadow-lg">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 bg-green-500 text-white rounded-2xl flex items-center justify-center text-xl sm:text-2xl shadow-lg shrink-0">
                             <i class="fa-solid fa-rotate"></i>
                         </div>
                         <h3 data-i18n="inst_up_title" class="text-xl sm:text-3xl font-bold text-gray-900">Mise à Jour (Update)</h3>
                     </div>
                     <p data-i18n="inst_up_desc" class="text-gray-600 mb-6 sm:mb-8 text-sm sm:text-lg leading-relaxed">En choisissant 'Mise à jour', le programme d'installation va :</p>
-                    
                     <ul class="space-y-4 sm:space-y-6 text-sm sm:text-lg text-gray-700 font-medium">
                         <li class="flex items-start gap-4 p-4 bg-white rounded-2xl shadow-sm border border-green-50">
-                            <i class="fa-solid fa-shield-halved text-green-500 mt-1 text-xl sm:text-2xl"></i> 
+                            <i class="fa-solid fa-shield-halved text-green-500 mt-1 text-xl sm:text-2xl shrink-0"></i>
                             <span data-i18n="inst_up_1">Sauvegarder en toute sécurité votre fichier de configuration et votre base de données.</span>
                         </li>
                         <li class="flex items-start gap-4 p-4 bg-white rounded-2xl shadow-sm border border-green-50">
-                            <i class="fa-solid fa-trash-can-arrow-up text-green-500 mt-1 text-xl sm:text-2xl"></i> 
+                            <i class="fa-solid fa-trash-can-arrow-up text-green-500 mt-1 text-xl sm:text-2xl shrink-0"></i>
                             <span data-i18n="inst_up_2">Nettoyer les anciens fichiers et déployer la nouvelle version automatiquement.</span>
                         </li>
                         <li class="flex items-start gap-4 p-4 bg-white rounded-2xl shadow-sm border border-green-50">
-                            <i class="fa-solid fa-network-wired text-green-500 mt-1 text-xl sm:text-2xl"></i> 
+                            <i class="fa-solid fa-network-wired text-green-500 mt-1 text-xl sm:text-2xl shrink-0"></i>
                             <span data-i18n="inst_up_3">Aucune reconfiguration réseau ou serveur n'est requise.</span>
                         </li>
                     </ul>
                     <div class="mt-auto pt-6 border-t border-green-100">
                         <div class="relative w-full rounded-2xl overflow-hidden shadow-md" style="padding-bottom:56.25%;">
-                            <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/fadOU21j1fc?si=UJinF209vyZbkWko" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/fadOU21j1fc?si=UJinF209vyZbkWko" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="mt-12 sm:mt-16 bg-gray-900 rounded-3xl p-6 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6 border border-gray-800 shadow-xl animate-fade-in-up">
+                <div class="flex items-center gap-4 sm:gap-6 text-start">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-red-600/20 rounded-2xl flex items-center justify-center shrink-0">
+                        <i class="fa-brands fa-youtube text-red-500 text-2xl sm:text-3xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-red-400 text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-1"><span data-i18n="yt_badge">Chaîne YouTube Officielle</span></p>
+                        <h3 data-i18n="yt_title" class="text-white text-base sm:text-xl font-extrabold leading-tight mb-1">MagPro — Tutoriels & Guides</h3>
+                        <p data-i18n="yt_desc_short" class="text-gray-400 text-xs sm:text-sm leading-relaxed">Toutes les démonstrations et guides du logiciel disponibles sur notre chaîne.</p>
+                    </div>
+                </div>
+                <a href="https://www.youtube.com/@magpro-officiel" target="_blank" rel="noopener" class="inline-flex items-center gap-3 bg-red-600 hover:bg-red-500 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-2xl font-bold text-sm sm:text-base transition hover:-translate-y-1 shrink-0 w-full sm:w-auto justify-center min-h-[48px]" style="animation: yt-btn-pulse 2s ease-in-out infinite;">
+                    <i class="fa-brands fa-youtube text-xl sm:text-2xl"></i>
+                    <span data-i18n="yt_btn">Visiter la Chaîne</span>
+                </a>
             </div>
         </div>
     </section>
@@ -746,25 +821,19 @@
                 <h3 data-i18n="foot_contact" class="text-2xl sm:text-3xl font-extrabold text-white mb-6 sm:mb-8 border-b border-gray-700 pb-4 inline-block md:block">Contactez-nous</h3>
                 <ul class="space-y-4 sm:space-y-6 text-sm sm:text-lg font-medium">
                     <li class="flex items-center justify-center md:justify-start gap-4 group">
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center group-hover:bg-blue-600 transition">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center group-hover:bg-blue-600 transition shrink-0">
                             <i class="fa-solid fa-phone text-blue-400 group-hover:text-white transition text-lg sm:text-xl"></i>
                         </div>
                         <a id="footerPhone" href="#" class="hover:text-white transition tracking-wider" dir="ltr"></a>
                     </li>
                     <li class="flex items-center justify-center md:justify-start gap-4 group">
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center group-hover:bg-blue-600 transition">
-                            <i class="fa-solid fa-envelope text-blue-400 group-hover:text-white transition text-lg sm:text-xl"></i>
-                        </div>
-                        <a id="footerEmail" href="#" class="hover:text-white transition" dir="ltr"></a>
-                    </li>
-                    <li class="flex items-center justify-center md:justify-start gap-4 group">
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center group-hover:bg-blue-600 transition">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center group-hover:bg-blue-600 transition shrink-0">
                             <i class="fa-brands fa-facebook-f text-blue-400 group-hover:text-white transition text-lg sm:text-xl"></i>
                         </div>
-                        <a id="footerFbLink" href="#" target="_blank" class="hover:text-white transition" dir="ltr">Page Facebook</a>
+                        <a id="footerFbLink" href="#" target="_blank" rel="noopener" class="hover:text-white transition" dir="ltr">Page Facebook</a>
                     </li>
-                    <li class="flex items-center justify-center md:justify-start gap-4 group">
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center">
+                    <li class="flex items-center justify-center md:justify-start gap-4">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gray-800 rounded-full flex items-center justify-center shrink-0">
                             <i class="fa-solid fa-location-dot text-blue-400 text-lg sm:text-xl"></i>
                         </div>
                         <span data-i18n="foot_loc" class="text-gray-300">Skikda, Algérie</span>
@@ -772,12 +841,18 @@
                 </ul>
             </div>
         </div>
-        <div class="text-center mt-12 sm:mt-20 pt-8 border-t border-gray-800 text-xs sm:text-base text-gray-500 font-medium px-4">
-            &copy; <span id="year"></span> <span data-i18n="foot_copy1">MagPro. Développé par</span> R.SEIFEDDINE. <span data-i18n="foot_copy2">Tous droits réservés.</span>
+        <div class="text-center mt-12 sm:mt-20 pt-8 border-t border-gray-700 px-4">
+            <p class="text-sm sm:text-base font-medium tracking-wide">
+                <span class="text-gray-400">&copy; <span id="year"></span> — </span>
+                <span class="text-white font-extrabold">Mag<span class="text-blue-400">Pro</span></span>
+                <span class="text-gray-400"> · <span data-i18n="foot_copy1">Développé par</span> </span>
+                <span style="-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-image:linear-gradient(90deg,#60a5fa,#22d3ee);font-weight:700;">R.SEIFEDDINE</span>
+                <span class="text-gray-400"> · <span data-i18n="foot_copy2">Tous droits réservés.</span></span>
+            </p>
         </div>
     </footer>
 
-    <button onclick="scrollToTop()" id="backToTop" class="fixed bottom-6 end-6 sm:bottom-8 sm:end-8 bg-blue-600 hover:bg-blue-700 text-white w-10 h-10 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(37,99,235,0.5)] transition z-50 focus:outline-none hover:-translate-y-1">
+    <button onclick="scrollToTop()" id="backToTop" class="fixed bottom-6 end-6 sm:bottom-8 sm:end-8 bg-blue-600 hover:bg-blue-700 text-white w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(37,99,235,0.5)] transition z-50 focus:outline-none hover:-translate-y-1">
         <i class="fa-solid fa-arrow-up text-lg sm:text-2xl"></i>
     </button>
 
@@ -785,18 +860,15 @@
         <div class="bg-white rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden modal-content border border-gray-100 max-h-[90vh] flex flex-col">
             <div class="p-6 sm:p-10 overflow-y-auto">
                 <div class="text-center mb-6 sm:mb-8">
-                    <div id="modalIconBg">
-                        <i id="modalIcon"></i>
-                    </div>
+                    <div id="modalIconBg"><i id="modalIcon"></i></div>
                     <h3 id="modalTitle" class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2 sm:mb-3"></h3>
                     <p id="modalDesc" class="text-gray-600 text-sm sm:text-lg leading-relaxed"></p>
                 </div>
                 <div class="bg-gray-50 rounded-2xl p-4 sm:p-8 border border-gray-100 shadow-inner">
-                    <ul id="modalPoints" class="space-y-3 sm:space-y-5 font-medium">
-                    </ul>
+                    <ul id="modalPoints" class="space-y-3 sm:space-y-5 font-medium"></ul>
                 </div>
                 <div class="mt-8 sm:mt-10 text-center">
-                    <button onclick="closeFeatureModal()" class="bg-gray-900 hover:bg-gray-800 text-white px-8 py-3 sm:px-10 sm:py-4 rounded-2xl font-bold transition shadow-lg w-full sm:w-auto text-base sm:text-lg hover:-translate-y-1">
+                    <button onclick="closeFeatureModal()" class="bg-gray-900 hover:bg-gray-800 text-white px-8 py-3 sm:px-10 sm:py-4 rounded-2xl font-bold transition shadow-lg w-full sm:w-auto text-base sm:text-lg hover:-translate-y-1 min-h-[48px]">
                         <span data-i18n="modal_close">Fermer</span>
                     </button>
                 </div>
@@ -806,20 +878,19 @@
 
     <script>
         window.winFireHtml = '';
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            
+
+        document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('.win-version').forEach(el => el.innerText = APP_CONFIG.WINDOWS.VERSION);
-            
+
             window.winFireHtml = getFireIconHTML(APP_CONFIG.WINDOWS.DATE);
             const winDateEl = document.getElementById('win-date');
-            if(winDateEl) {
+            if (winDateEl) {
                 const dateStr = currentLang === 'ar' ? APP_CONFIG.WINDOWS.DATE_AR : APP_CONFIG.WINDOWS.DATE;
                 winDateEl.innerHTML = (currentLang === 'ar' ? 'تم التحديث في: ' : 'Mise à jour le : ') + dateStr + window.winFireHtml;
             }
-            
+
             const dlBtn = document.getElementById('mainDownloadBtn');
-            if(dlBtn) dlBtn.href = APP_CONFIG.WINDOWS.LINK;
+            if (dlBtn) dlBtn.href = APP_CONFIG.WINDOWS.LINK;
 
             document.getElementById('ver_flotte').innerText = APP_CONFIG.ANDROID.FLOTTE.VERSION;
             document.getElementById('date_flotte').innerHTML = (currentLang === 'ar' ? APP_CONFIG.ANDROID.FLOTTE.DATE_AR : APP_CONFIG.ANDROID.FLOTTE.DATE) + getFireIconHTML(APP_CONFIG.ANDROID.FLOTTE.DATE);
@@ -838,29 +909,21 @@
             document.getElementById('apkStandaloneBtn').href = APP_CONFIG.ANDROID.STANDALONE.LINK;
 
             const phoneEl = document.getElementById('footerPhone');
-            if(phoneEl) {
+            if (phoneEl) {
                 phoneEl.innerText = APP_CONFIG.CONTACT.PHONE;
                 phoneEl.href = `tel:${APP_CONFIG.CONTACT.PHONE.replace(/\s/g, '')}`;
             }
 
-            const emailEl = document.getElementById('footerEmail');
-            if(emailEl) {
-                emailEl.innerText = APP_CONFIG.CONTACT.EMAIL;
-                emailEl.href = `mailto:${APP_CONFIG.CONTACT.EMAIL}`;
-            }
-
             const fbFoot = document.getElementById('footerFbLink');
-            if(fbFoot) fbFoot.href = APP_CONFIG.CONTACT.FACEBOOK;
+            if (fbFoot) fbFoot.href = APP_CONFIG.CONTACT.FACEBOOK;
 
             document.getElementById('year').innerText = new Date().getFullYear();
-            
-            document.getElementById('featureModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeFeatureModal();
-                }
+
+            document.getElementById('featureModal').addEventListener('click', function (e) {
+                if (e.target === this) closeFeatureModal();
             });
 
-            document.addEventListener('keydown', function(e) {
+            document.addEventListener('keydown', function (e) {
                 if (e.key === 'Escape' && !document.getElementById('featureModal').classList.contains('hidden')) {
                     closeFeatureModal();
                 }
