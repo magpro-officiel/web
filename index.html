@@ -28,14 +28,146 @@
 
         .hero-section {
             padding-top: 120px !important;
-            padding-bottom: 80px !important;
+            padding-bottom: 100px !important;
             overflow: hidden;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
         }
         @media (min-width: 768px) {
             .hero-section {
-                padding-top: 200px !important;
+                padding-top: 160px !important;
                 padding-bottom: 140px !important;
             }
+        }
+
+        /* Animated hero background */
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 40%, rgba(37,99,235,0.35) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 70%, rgba(16,185,129,0.2) 0%, transparent 55%),
+                radial-gradient(ellipse 50% 40% at 50% 10%, rgba(99,102,241,0.2) 0%, transparent 60%);
+            animation: hero-bg-shift 10s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        /* Floating orbs */
+        .hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.18;
+            pointer-events: none;
+            animation: orb-float 8s ease-in-out infinite;
+        }
+        .hero-orb-1 { width: 500px; height: 500px; background: #3b82f6; top: -100px; right: -100px; animation-delay: 0s; }
+        .hero-orb-2 { width: 400px; height: 400px; background: #10b981; bottom: -80px; left: -80px; animation-delay: -4s; }
+        .hero-orb-3 { width: 300px; height: 300px; background: #8b5cf6; top: 40%; left: 30%; animation-delay: -2s; opacity: 0.1; }
+
+        /* Grid pattern overlay */
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+
+        @keyframes hero-bg-shift {
+            0%   { opacity: 1; transform: scale(1); }
+            100% { opacity: 0.8; transform: scale(1.08); }
+        }
+
+        @keyframes orb-float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50%       { transform: translateY(-30px) scale(1.05); }
+        }
+
+        /* Stats badges */
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.85);
+            transition: all 0.3s ease;
+        }
+        .hero-badge:hover {
+            background: rgba(255,255,255,0.14);
+            border-color: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        .hero-badge .dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%       { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        /* Scroll indicator */
+        .hero-scroll {
+            position: absolute;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            opacity: 0.4;
+            animation: scroll-bounce 2s ease-in-out infinite;
+        }
+        @keyframes scroll-bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50%       { transform: translateX(-50%) translateY(8px); }
+        }
+
+        /* Gradient text animated */
+        .gradient-text-animated {
+            background: linear-gradient(90deg, #38bdf8, #34d399, #818cf8, #38bdf8);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 5s linear infinite;
+        }
+        @keyframes gradient-shift {
+            0%   { background-position: 0% 50%; }
+            100% { background-position: 300% 50%; }
+        }
+
+        /* CTA button shine */
+        .hero-cta {
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-cta::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-20deg);
+            animation: cta-shine 4s ease-in-out infinite;
+        }
+        @keyframes cta-shine {
+            0%   { left: -60%; }
+            40%, 100% { left: 130%; }
         }
 
         #featureModal { transition: opacity 0.3s ease, visibility 0.3s ease; }
@@ -142,9 +274,21 @@
                 nav_apps: "تطبيقات Android",
                 nav_install: "دليل التثبيت",
                 nav_contact: "اتصل بنا",
-                hero_title1: "الحل النهائي لإدارة <br>",
+                hero_title1: "الحل النهائي لإدارة",
                 hero_title2: "تجارتك",
                 hero_desc: "المحلات التجارية، المطاعم، أو التوزيع. MagPro هو برنامج الفوترة وتسيير المخزون الأقوى، الأسرع والأكثر أماناً.",
+                hero_badge1: "مخزون ذكي",
+                hero_badge2: "فواتير احترافية",
+                hero_badge3: "🖥️ Windows و Android",
+                hero_badge4: "يعمل بدون إنترنت",
+                hero_cta_download: "تحميل المجاني",
+                hero_cta_features: "اكتشف المميزات",
+                hero_stat1: "تجربة مجانية",
+                hero_stat1_unit: "أيام",
+                hero_stat2: "محل · مطعم · توزيع",
+                hero_stat2_unit: "أنظمة",
+                hero_stat3: "دعم فني متواصل",
+                hero_stat3_unit: "دعم",
                 feat_title: "اكتشف قوة MagPro",
                 feat_desc: "اضغط على أي قسم لاكتشاف خصائصه المستخرجة من تقنياتنا.",
                 feat_card1_title: "المحلات التجارية والجملة",
@@ -213,9 +357,21 @@
                 nav_apps: "Applications Android",
                 nav_install: "Guide d'installation",
                 nav_contact: "Contact",
-                hero_title1: "La Solution Ultime pour Gérer <br>",
+                hero_title1: "La Solution Ultime pour Gérer",
                 hero_title2: "Votre Commerce",
                 hero_desc: "Commerces, Restaurants, ou Distribution. MagPro est le logiciel de facturation et de gestion de stock le plus complet, rapide et sécurisé.",
+                hero_badge1: "Stock Intelligent",
+                hero_badge2: "Factures Pro",
+                hero_badge3: "🖥️ Windows & Android",
+                hero_badge4: "Fonctionne Hors-Ligne",
+                hero_cta_download: "Téléchargement Gratuit",
+                hero_cta_features: "Découvrir les Fonctions",
+                hero_stat1: "Essai gratuit",
+                hero_stat1_unit: "Jours",
+                hero_stat2: "Commerce · Restaurant · Distribution",
+                hero_stat2_unit: "Systèmes",
+                hero_stat3: "Support technique continu",
+                hero_stat3_unit: "Support",
                 feat_title: "Découvrez la puissance de MagPro",
                 feat_desc: "Cliquez sur un module pour explorer toutes ses capacités extraites de notre technologie.",
                 feat_card1_title: "Commerces & Gros",
@@ -289,28 +445,62 @@
                     title: "المحلات التجارية والجملة",
                     description: "نظام متكامل لتسيير المخزون المعقد، التسعير الديناميكي والمتابعة المالية المفصلة.",
                     points: [
-                        "تسيير أسعار متعددة (تجزئة، نصف جملة، جملة) مع تعيين تلقائي للزبون.",
-                        "تسيير مستودعات متعددة: انقل سلعك بين المتجر الرئيسي والمستودع.",
+                        "تسيير أسعار متعددة (تجزئة، نصف جملة، جملة) مع تعيين تلقائي حسب نوع الزبون.",
+                        "تسيير مستودعات متعددة: نقل السلع بين المتجر الرئيسي والمستودع بسهولة.",
                         "دعم كامل للباركود والموازين الإلكترونية وطباعة ملصقات مخصصة (40x20، 45x35، 60x40).",
-                        "متابعة دقيقة لتواريخ الصلاحية مع تنبيهات قابلة للضبط.",
-                        "نظام ولاء ذكي (نقاط قابلة للتحويل إلى خصومات).",
-                        "تسيير الأرقام التسلسلية للأجهزة الكهرومنزلية مع متابعة الضمان.",
-                        "نظام عروض ترويجية قابل للبرمجة (سعر ثابت أو نسبة، حد للكمية).",
-                        "تقارير مالية مفصلة (الأرباح، قيمة المخزون، المصاريف، رقم الأعمال)."
+                        "متابعة دقيقة لتواريخ الصلاحية مع تنبيهات قابلة للضبط مسبقاً.",
+                        "نظام ولاء ذكي: نقاط تراكمية قابلة للتحويل إلى خصومات فورية للزبائن.",
+                        "تسيير الأرقام التسلسلية للأجهزة الكهرومنزلية مع متابعة الضمان لكل وحدة.",
+                        "نظام عروض ترويجية قابل للبرمجة: سعر ثابت أو نسبة مع إمكانية تحديد حد الكمية وتاريخ الانتهاء.",
+                        "تقارير مالية مفصلة: الأرباح، قيمة المخزون، المصاريف، رقم الأعمال.",
+                        "تسعير خاص لزبائن أو موردين محددين خارج نطاق الأسعار العامة.",
+                        "إدارة وحدات متعددة لكل منتج (قطعة، كرتون، كيلوغرام...).",
+                        "صور للمنتجات تظهر في الفاتورة وعلى شاشة العرض الخارجية.",
+                        "كشف حساب مفصل لكل زبون أو مورد مع تتبع الديون والمدفوعات.",
+                        "دعم الدفع الجزئي (تسجيل الدين) والدفع الزائد (رصيد).",
+                        "إدارة المرتجعات: أوامر الإرجاع للزبائن والموردين.",
+                        "شاشة عرض السعر الخارجية (شاشة ثانية) تعرض المنتج وسعره للزبون.",
+                        "وضع الميزان الذكي: تحويل الهاتف أو الكمبيوتر إلى ميزان متصل بالمخزون.",
+                        "طباعة جماعية لملصقات الباركود مع استيراد الكميات من فواتير الشراء.",
+                        "كتالوج رقمي عبر QR Code يعرض منتجات المتجر للزبائن مباشرة.",
+                        "تحليل المنتجات الأكثر مبيعاً والأكثر ربحاً وحالة المخزون.",
+                        "تصدير كامل للتقارير إلى Excel و PDF.",
+                        "إدارة الموظفين: رواتب، حضور وانصراف، عطل، وبطاقات تسجيل.",
+                        "سجل نشاط كامل (Audit Log) لكل العمليات بتوقيت دقيق.",
+                        "نسخ احتياطي تلقائي للبيانات مع إمكانية الاسترداد الفوري.",
+                        "دعم طابع الضريبة (حق الطابع) في الفواتير الرسمية.",
+                        "إمكانية العمل في شبكة: سيرفر مركزي مع عدة أجهزة عميل."
                     ]
                 },
                 fr: {
                     title: "Commerces & Gros",
                     description: "Un système complet pour la gestion des stocks complexes, la tarification dynamique et le suivi financier détaillé.",
                     points: [
-                        "Gestion multi-tarifs (Détail, Demi-gros, Gros) avec assignation automatique par client.",
-                        "Gestion multi-dépôts : Transférez vos marchandises entre le Magasin Principal et le Dépôt.",
+                        "Gestion multi-tarifs (Détail, Demi-gros, Gros) avec assignation automatique par type de client.",
+                        "Gestion multi-dépôts : transfert de marchandises entre le magasin principal et le dépôt.",
                         "Prise en charge intégrale des codes-barres, balances électroniques et impression d'étiquettes personnalisables (40x20, 45x35, 60x40).",
-                        "Suivi rigoureux des dates d'expiration avec alertes paramétrables.",
-                        "Système de fidélité intelligent (Points convertibles en remises).",
-                        "Gestion des numéros de série (Serial Numbers) pour l'électroménager avec suivi des garanties.",
-                        "Système de promotions programmables (Prix fixe ou Pourcentage, Limite de quantité).",
-                        "Rapports financiers détaillés (Bénéfices, Valeur du stock, Dépenses, Chiffre d'affaires)."
+                        "Suivi rigoureux des dates d'expiration avec alertes paramétrables en avance.",
+                        "Système de fidélité intelligent : points cumulables convertibles en remises immédiates.",
+                        "Gestion des numéros de série pour l'électroménager avec suivi individuel des garanties.",
+                        "Promotions programmables : prix fixe ou pourcentage, avec limite de quantité et date d'expiration.",
+                        "Rapports financiers détaillés : bénéfices, valeur du stock, dépenses, chiffre d'affaires.",
+                        "Tarification spéciale par client ou fournisseur, hors grille tarifaire générale.",
+                        "Gestion multi-unités par produit (pièce, carton, kilogramme...).",
+                        "Photos des produits affichées sur la facture et sur l'écran client externe.",
+                        "Relevé de compte détaillé par client ou fournisseur avec suivi des dettes et paiements.",
+                        "Support du paiement partiel (enregistrement de crédit) et du surplus (solde positif).",
+                        "Gestion des retours : avoirs clients et fournisseurs.",
+                        "Écran d'affichage prix externe (2ème écran) montrant le produit et son prix au client.",
+                        "Mode balance intelligent : transformation du PC ou smartphone en balance connectée au stock.",
+                        "Impression en masse d'étiquettes codes-barres avec import des quantités depuis les achats.",
+                        "Catalogue digital via QR Code présentant les produits du magasin aux clients.",
+                        "Analyse des produits les plus vendus, les plus rentables et état du stock.",
+                        "Export complet des rapports vers Excel et PDF.",
+                        "Gestion du personnel : salaires, pointage présence/absence, congés et badges.",
+                        "Journal d'activité complet (Audit Log) pour toutes les opérations avec horodatage précis.",
+                        "Sauvegarde automatique des données avec restauration immédiate possible.",
+                        "Support du droit de timbre dans les factures officielles.",
+                        "Fonctionnement en réseau : serveur central avec plusieurs postes clients."
                     ]
                 }
             },
@@ -322,28 +512,46 @@
                     title: "المطاعم والمقاهي",
                     description: "مصمم خصيصاً لتسريع الخدمة، مزامنة الصالة والمطبخ، وتقديم تجربة عصرية.",
                     points: [
-                        "مخطط طاولات تفاعلي (متاحة، مشغولة، محجوزة) مع تسيير الكراسي.",
-                        "توجيه ذكي في المطبخ: طباعة تلقائية حسب الفئة (مثال: المشروبات في البار، الأطباق في المطبخ).",
-                        "نظام تذكير لإعلام المطبخ بأن طاولة تنتظر منذ فترة طويلة.",
-                        "منيو رقمي عبر QR Code ديناميكي يولد تلقائياً لزبائنك.",
-                        "تسيير متقدم للإضافات (مثال: +جبن، بدون بصل) مع تعديل تلقائي للأسعار.",
-                        "وضع البيع السريع (Quick Sale) للطلبات الخارجية.",
+                        "مخطط طاولات تفاعلي (متاحة، مشغولة، محجوزة) مع تسيير الكراسي وعدد الأغطية.",
+                        "حجز الطاولات مسبقاً مع التاريخ والوقت وإشعار عند الحلول.",
+                        "توجيه ذكي في المطبخ: طباعة تلقائية حسب الفئة (مثال: المشروبات في المقهى، الأطباق في المطبخ).",
+                        "نظام تذكير لإعلام المطبخ بأن طاولة تنتظر منذ فترة طويلة مع عرض التأخير بالدقائق.",
+                        "منيو رقمي عبر QR Code ديناميكي يولد تلقائياً، يعرض الأصناف بالصور والأسعار.",
+                        "تسيير متقدم للإضافات والخيارات (مثال: +جبن، بدون بصل) مع تعديل تلقائي للأسعار.",
+                        "وضع البيع السريع (Quick Sale) للطلبات الخارجية والتيك أواي.",
+                        "تعديل الطلب بعد إرساله للمطبخ مع إشعار تلقائي بالتغيير.",
                         "نقل سهل للطلبات من طاولة إلى أخرى أو من كرسي إلى آخر.",
-                        "نداء للنادل مباشرة من المنيو الرقمي الخاص بالزبون."
+                        "تقسيم الفاتورة بين عدة زبائن على نفس الطاولة.",
+                        "نداء للنادل مباشرة من المنيو الرقمي الخاص بالزبون.",
+                        "تطبيق Android مخصص للمقاهي والمطاعم يعمل بدون إنترنت (Offline) مع مزامنة تلقائية فور استعادة الاتصال.",
+                        "وضع اللوحي (Tablet Mode) لأجهزة الأندرويد مع واجهة مُحسَّنة للمس.",
+                        "تتبع نشاط كل نادل: عدد الطلبات، المبيعات، والأداء اليومي.",
+                        "تقارير مبيعات المطعم: أوقات الذروة، الأصناف الأكثر طلباً، وأداء الطاولات.",
+                        "طباعة وصل المطبخ بخط كبير وواضح مع اسم الطاولة ورقم الطلب.",
+                        "دعم عدة طابعات مطبخ موزعة حسب الفئات (بار، مطبخ ساخن، مطبخ بارد...)."
                     ]
                 },
                 fr: {
                     title: "Restaurants & Cafés",
                     description: "Spécialement conçu pour accélérer le service, synchroniser la salle et la cuisine, et offrir une expérience moderne.",
                     points: [
-                        "Plan de tables interactif (Disponible, Occupée, Réservée) avec gestion des chaises/couverts.",
-                        "Routage intelligent en cuisine : Impression automatique selon la catégorie (ex: Boissons au bar, Plats en cuisine).",
-                        "Système de relance (Rappel) pour signaler à la cuisine qu'une table wait depuis trop longtemps.",
-                        "Menu Digital via QR Code dynamique généré automatiquement pour vos clients.",
+                        "Plan de tables interactif (Disponible, Occupée, Réservée) avec gestion des chaises et nombre de couverts.",
+                        "Réservation de tables à l'avance avec date, heure et notification à l'échéance.",
+                        "Routage intelligent en cuisine : impression automatique selon la catégorie (ex: Boissons au café, Plats en cuisine).",
+                        "Système de relance (Rappel) pour signaler à la cuisine qu'une table attend depuis trop longtemps, avec affichage du retard en minutes.",
+                        "Menu Digital via QR Code dynamique généré automatiquement, affichant les articles avec photos et prix.",
                         "Gestion avancée des suppléments/options (Ex: +Fromage, Sans Oignon) avec ajustement automatique des prix.",
-                        "Mode Vente Rapide (Quick Sale) pour les commandes à emporter.",
+                        "Mode Vente Rapide (Quick Sale) pour les commandes à emporter et take-away.",
+                        "Modification de commande après envoi en cuisine avec notification automatique du changement.",
                         "Transfert facile des commandes d'une table à une autre ou d'une chaise à une autre.",
-                        "Appel serveur directement depuis le menu digital du client."
+                        "Division d'addition entre plusieurs clients à la même table.",
+                        "Appel serveur directement depuis le menu digital du client.",
+                        "Application Android native dédiée aux cafés et restaurants, fonctionnant intégralement Hors-Ligne (Offline) avec synchronisation automatique dès le retour de la connexion.",
+                        "Mode Tablette (Tablet Mode) pour appareils Android avec interface optimisée tactile.",
+                        "Suivi d'activité de chaque serveur : nombre de commandes, ventes et performance journalière.",
+                        "Rapports de ventes du restaurant : heures de pointe, articles les plus commandés, performance des tables.",
+                        "Impression ticket cuisine en grand format et lisible avec nom de table et numéro de commande.",
+                        "Support de plusieurs imprimantes cuisine réparties par catégories (bar, cuisine chaude, cuisine froide...)."
                     ]
                 }
             },
@@ -355,26 +563,40 @@
                     title: "التوزيع",
                     description: "التحكم الكامل في أسطول التوزيع الخاص بك. تتبع سائقيك وسير المخزون المتنقل في الوقت الفعلي.",
                     points: [
-                        "تطبيق Android مخصص يعمل بدون إنترنت (Offline) مع مزامنة تلقائية.",
-                        "لوحة تحكم لتتبع GPS في الوقت الفعلي: السرعة، المسارات، والحالة.",
-                        "تسيير مخزون الشاحنة: تحميل وإرجاع السلع من التطبيق المركزي.",
-                        "إمكانية إرسال 'طلبات مخزون' من السائق مباشرة إلى المتجر.",
-                        "تسجيل دفعات الزبائن والمصاريف للسائق على الطريق.",
-                        "طباعة فورية عبر البلوتوث (Bluetooth) لوصل التسليم والفواتير من هاتف السائق.",
-                        "تحديد الموقع الجغرافي التلقائي لنقاط بيع الزبائن."
+                        "تطبيق Android مخصص يعمل بدون إنترنت (Offline) مع مزامنة تلقائية فور استعادة الاتصال.",
+                        "لوحة تحكم Fleet Command لتتبع GPS في الوقت الفعلي: السرعة، المسارات، والحالة.",
+                        "إعادة عرض مسار السائق (Replay) مع التحكم في السرعة لمراجعة كل رحلة.",
+                        "تسيير مخزون الشاحنة: تحميل وإرجاع السلع من التطبيق المركزي بسهولة.",
+                        "إمكانية إرسال 'طلبات مخزون' من السائق مباشرة إلى المتجر عند نفاد الأصناف.",
+                        "تسجيل دفعات الزبائن والمصاريف الميدانية للسائق على الطريق.",
+                        "طباعة فورية عبر البلوتوث (Bluetooth) لوصل التسليم والفواتير مباشرة من هاتف السائق.",
+                        "تحديد الموقع الجغرافي التلقائي لنقاط بيع الزبائن على الخريطة.",
+                        "إحصاءات تفصيلية لكل سائق: إجمالي التحصيلات، قائمة التوصيلات المُنجزة والمعلقة.",
+                        "خريطة تفاعلية تعرض مواقع جميع الزبائن مع حالة التوصيل (تم / بانتظار).",
+                        "نظام تأكيد التوصيل بالقرب الجغرافي: لا يمكن تسجيل التوصيل إلا عند الاقتراب من الزبون.",
+                        "تبديل بين خريطة الشوارع والصور الجوية (Satellite) مباشرة من الخريطة.",
+                        "دعم أدوار متعددة: مدير يرى كل الأسطول، سائق يرى فقط طلباته.",
+                        "تقارير يومية وأسبوعية لأداء الأسطول قابلة للتصدير إلى PDF."
                     ]
                 },
                 fr: {
                     title: "Distribution",
                     description: "Le contrôle total de votre flotte de distribution. Suivez vos chauffeurs et gérez le stock roulant en temps réel.",
                     points: [
-                        "Application Mobile Android dédiée fonctionnant en mode Hors-Ligne (Offline) avec synchronisation auto.",
-                        "Tableau de bord de suivi GPS en direct (Fleet Command) : vitesse, trajets, et statut en ligne.",
-                        "Gestion du stock camion : Chargement et Retour de la marchandise depuis l'application centrale.",
-                        "Possibilité pour le chauffeur d'envoyer des 'Demandes de Stock' directement vers le magasin.",
-                        "Enregistrement des versements, paiements et dépenses du chauffeur sur la route.",
-                        "Impression Bluetooth instantanée des bons de livraison et factures depuis le Smartphone du chauffeur.",
-                        "Géolocalisation automatique des points de vente clients."
+                        "Application Mobile Android dédiée fonctionnant en mode Hors-Ligne (Offline) avec synchronisation automatique dès le retour de la connexion.",
+                        "Tableau de bord Fleet Command : suivi GPS en direct avec vitesse, trajets et statut en ligne.",
+                        "Replay du trajet du chauffeur avec contrôle de vitesse pour révision de chaque tournée.",
+                        "Gestion du stock camion : chargement et retour de marchandises depuis l'application centrale.",
+                        "Le chauffeur peut envoyer des 'Demandes de Stock' directement vers le magasin en cas de rupture.",
+                        "Enregistrement des versements clients et dépenses terrain du chauffeur sur la route.",
+                        "Impression Bluetooth instantanée des bons de livraison et factures depuis le smartphone du chauffeur.",
+                        "Géolocalisation automatique des points de vente clients sur la carte interactive.",
+                        "Statistiques détaillées par chauffeur : total encaissements, liste des livraisons effectuées et en attente.",
+                        "Carte interactive affichant tous les clients avec statut de livraison (effectuée / en attente).",
+                        "Confirmation de livraison par proximité géographique : impossible d'enregistrer une livraison sans être proche du client.",
+                        "Basculement entre carte routière et vue satellite directement depuis la carte.",
+                        "Support de rôles multiples : manager voit toute la flotte, chauffeur voit uniquement ses commandes.",
+                        "Rapports journaliers et hebdomadaires des performances de la flotte, exportables en PDF."
                     ]
                 }
             }
@@ -552,16 +774,65 @@
         </div>
     </nav>
 
-    <section class="hero-section bg-gradient-to-br from-gray-900 via-gray-800 to-blue-900 text-white text-center">
-        <div class="max-w-4xl mx-auto px-4">
-            <h1 class="hero-title-spacing text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 sm:mb-8 leading-tight animate-fade-in-up">
-                <span data-i18n="hero_title1">La Solution Ultime pour Gérer <br></span>
-                <span class="gradient-text" data-i18n="hero_title2">Votre Commerce</span>
+    <section class="hero-section bg-gradient-to-br from-gray-950 via-slate-900 to-blue-950 text-white text-center">
+
+        <!-- Orbs -->
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-orb hero-orb-2"></div>
+        <div class="hero-orb hero-orb-3"></div>
+
+        <!-- Grid -->
+        <div class="hero-grid"></div>
+
+        <div class="max-w-5xl mx-auto px-4 relative z-10">
+
+            <!-- Badge top -->
+            <div class="flex flex-wrap justify-center gap-3 mb-8 sm:mb-10 animate-fade-in-up" style="animation-delay:0s;">
+                <span class="hero-badge"><span class="dot" style="background:#10b981;"></span> <span data-i18n="hero_badge1">مخزون ذكي</span></span>
+                <span class="hero-badge"><span class="dot" style="background:#3b82f6;"></span> <span data-i18n="hero_badge2">فواتير احترافية</span></span>
+                <span class="hero-badge"><span class="dot" style="background:#f59e0b;"></span> <span data-i18n="hero_badge3">🔥 تجربة 7 أيام مجانية</span></span>
+                <span class="hero-badge"><span class="dot" style="background:#8b5cf6;"></span> <span data-i18n="hero_badge4">يعمل بدون إنترنت</span></span>
+            </div>
+
+            <!-- Title -->
+            <h1 class="hero-title-spacing text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold mb-6 sm:mb-8 leading-tight animate-fade-in-up" style="animation-delay:0.1s; letter-spacing:-1px;">
+                <span data-i18n="hero_title1" class="block text-white drop-shadow-2xl">الحل النهائي لإدارة</span>
+                <span class="gradient-text-animated" data-i18n="hero_title2">تجارتك</span>
             </h1>
-            <p data-i18n="hero_desc" class="text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-12 text-gray-300 max-w-3xl mx-auto px-2 animate-fade-in-up leading-relaxed" style="animation-delay:0.2s;">
-                Commerces, Restaurants, ou Distribution. MagPro est le logiciel de facturation et de gestion de stock le plus complet, rapide et sécurisé.
+
+            <!-- Description -->
+            <p data-i18n="hero_desc" class="text-lg sm:text-xl md:text-2xl mb-10 sm:mb-14 text-slate-300 max-w-3xl mx-auto px-2 animate-fade-in-up leading-relaxed" style="animation-delay:0.2s;">
+                المحلات التجارية، المطاعم، أو التوزيع. MagPro هو برنامج الفوترة وتسيير المخزون الأقوى، الأسرع والأكثر أماناً.
             </p>
+
+
+
+
+            <!-- Stats row -->
+            <div class="flex flex-wrap justify-center gap-6 sm:gap-12 mt-14 sm:mt-20 animate-fade-in-up" style="animation-delay:0.4s;">
+                <div class="text-center">
+                    <div class="text-3xl sm:text-4xl font-extrabold text-white">7 <span class="text-blue-400" data-i18n="hero_stat1_unit">أيام</span></div>
+                    <div class="text-slate-400 text-xs sm:text-sm font-semibold mt-1" data-i18n="hero_stat1">تجربة مجانية</div>
+                </div>
+                <div class="w-px bg-white/10 hidden sm:block"></div>
+                <div class="text-center">
+                    <div class="text-3xl sm:text-4xl font-extrabold text-white">3 <span class="text-green-400" data-i18n="hero_stat2_unit">أنظمة</span></div>
+                    <div class="text-slate-400 text-xs sm:text-sm font-semibold mt-1" data-i18n="hero_stat2">محل · مطعم · توزيع</div>
+                </div>
+                <div class="w-px bg-white/10 hidden sm:block"></div>
+                <div class="text-center">
+                    <div class="text-3xl sm:text-4xl font-extrabold text-white">24/7 <span class="text-yellow-400" data-i18n="hero_stat3_unit">دعم</span></div>
+                    <div class="text-slate-400 text-xs sm:text-sm font-semibold mt-1" data-i18n="hero_stat3">دعم فني متواصل</div>
+                </div>
+            </div>
+
         </div>
+
+        <!-- Scroll indicator -->
+        <div class="hero-scroll">
+            <i class="fa-solid fa-chevron-down text-white text-sm"></i>
+        </div>
+
     </section>
 
     <section id="features" class="py-16 sm:py-24 bg-white border-b border-gray-100">
@@ -903,6 +1174,7 @@
                 const key = el.getAttribute('data-i18n');
                 if (translations.ar[key]) el.innerHTML = translations.ar[key];
             });
+            document.getElementById('langToggleBtn').innerText = 'Français';
             document.body.style.visibility = 'visible';
 
             document.querySelectorAll('.win-version').forEach(el => el.innerText = APP_CONFIG.WINDOWS.VERSION);
